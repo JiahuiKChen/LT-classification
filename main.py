@@ -20,8 +20,11 @@ from run_networks import model
 import warnings
 import yaml
 from utils import source_import, get_value
+import wandb 
 
-data_root = {'ImageNet': '/datasets01_101/imagenet_full_size/061417',
+
+# only ImageNet is up to date
+data_root = {'ImageNet': '/mnt/zhang-nas/tensorflow_datasets/imagenet2012/',
              'Places': '/datasets01_101/Places365/041019',
              'iNaturalist18': '/checkpoint/bykang/iNaturalist18'}
 
@@ -72,6 +75,20 @@ def update(config, args):
 with open(args.cfg) as f:
     config = yaml.load(f)
 config = update(config, args)
+
+wandb.init(
+    # set the wandb project where this run will be logged
+    project="ImageNet-LT",
+
+    # track hyperparameters and run metadata
+    # config={
+    # "learning_rate": 0.02,
+    # "architecture": "ResNext50",
+    # "dataset": "ImageNet-LT",
+    # "epochs": 150,
+    # }
+    config=config
+)
 
 test_mode = args.test
 test_open = args.test_open
@@ -169,5 +186,6 @@ else:
     
     if output_logits:
         training_model.output_logits(openset=test_open)
-        
+
+wandb.finish() 
 print('ALL COMPLETED.')
