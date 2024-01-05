@@ -1,0 +1,107 @@
+Loading dataset from: /mnt/zhang-nas/tensorflow_datasets/downloads/manual/imagenet2012
+{'coslr': True,
+ 'criterions': {'PerformanceLoss': {'def_file': './loss/SoftmaxLoss.py',
+                                    'loss_params': {},
+                                    'optim_params': None,
+                                    'weight': 1.0}},
+ 'endlr': 0.0,
+ 'last': False,
+ 'memory': {'centroids': False, 'init_centroids': False},
+ 'model_dir': None,
+ 'networks': {'classifier': {'def_file': './models/DotProductClassifier.py',
+                             'optim_params': {'lr': 0.2,
+                                              'momentum': 0.9,
+                                              'weight_decay': 0.0005},
+                             'params': {'dataset': 'ImageNet_LT',
+                                        'feat_dim': 2048,
+                                        'log_dir': './logs/ImageNet_LT/models/resnext50_uniform_e90',
+                                        'num_classes': 1000,
+                                        'stage1_weights': False}},
+              'feat_model': {'def_file': './models/ResNext50Feature.py',
+                             'fix': False,
+                             'optim_params': {'lr': 0.2,
+                                              'momentum': 0.9,
+                                              'weight_decay': 0.0005},
+                             'params': {'dataset': 'ImageNet_LT',
+                                        'dropout': None,
+                                        'log_dir': './logs/ImageNet_LT/models/resnext50_uniform_e90',
+                                        'stage1_weights': False,
+                                        'use_fc': False,
+                                        'use_selfatt': False}}},
+ 'shuffle': False,
+ 'training_opt': {'backbone': 'resnext50',
+                  'batch_size': 512,
+                  'dataset': 'ImageNet_LT',
+                  'display_step': 10,
+                  'feature_dim': 2048,
+                  'log_dir': './logs/ImageNet_LT/models/resnext50_uniform_e90',
+                  'log_root': '/logs/ImageNet_LT',
+                  'num_classes': 1000,
+                  'num_epochs': 150,
+                  'num_workers': 4,
+                  'open_threshold': 0.1,
+                  'sampler': None,
+                  'scheduler_params': {'gamma': 0.1, 'step_size': 30},
+                  'stage': 'resnext50_uniform_e90',
+                  'sub_dir': 'models'}}
+Loading data from ./data/ImageNet_LT/ImageNet_LT_train.txt
+Use data transformation: Compose(
+    RandomResizedCrop(size=(224, 224), scale=(0.08, 1.0), ratio=(0.75, 1.3333), interpolation=bilinear, antialias=warn)
+    RandomHorizontalFlip(p=0.5)
+    ColorJitter(brightness=(0.6, 1.4), contrast=(0.6, 1.4), saturation=(0.6, 1.4), hue=None)
+    ToTensor()
+    Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+)
+115846
+No sampler.
+Shuffle is True.
+Loading data from ./data/ImageNet_LT/ImageNet_LT_train.txt
+Use data transformation: Compose(
+    Resize(size=256, interpolation=bilinear, max_size=None, antialias=warn)
+    CenterCrop(size=(224, 224))
+    ToTensor()
+    Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+)
+115846
+No sampler.
+Shuffle is True.
+Loading data from ./data/ImageNet_LT/ImageNet_LT_val.txt
+Use data transformation: Compose(
+    Resize(size=256, interpolation=bilinear, max_size=None, antialias=warn)
+    CenterCrop(size=(224, 224))
+    ToTensor()
+    Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+)
+20000
+No sampler.
+Shuffle is True.
+Loading data from ./data/ImageNet_LT/ImageNet_LT_test.txt
+Use data transformation: Compose(
+    Resize(size=256, interpolation=bilinear, max_size=None, antialias=warn)
+    CenterCrop(size=(224, 224))
+    ToTensor()
+    Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+)
+50000
+No sampler.
+Shuffle is True.
+Using 4 GPUs.
+Loading Dot Product Classifier.
+Random initialized classifier weights.
+Loading Scratch ResNext 50 Feature Model.
+No Pretrained Weights For Feature Model.
+Using steps for training.
+Initializing model optimizer.
+===> Using coslr eta_min=0.0
+Loading Softmax Loss.
+===> Saving cfg parameters to:  ./logs/ImageNet_LT/models/resnext50_uniform_e90/cfg.yaml
+Phase: train
+/mnt/zhang-nas/jiahuic/miniconda3/envs/diffusion/lib/python3.11/site-packages/torch/optim/lr_scheduler.py:136: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
+Do shuffle??? ---  False
+/mnt/zhang-nas/jiahuic/miniconda3/envs/diffusion/lib/python3.11/site-packages/torch/nn/modules/conv.py:456: UserWarning: Applied workaround for CuDNN issue, install nvrtc.so (Triggered internally at /opt/conda/conda-bld/pytorch_1695392026823/work/aten/src/ATen/native/cudnn/Conv_v8.cpp:80.)
+  return F.conv2d(input, weight, bias, self.stride,
+Epoch: [1/150] Step:     0  Minibatch_loss_performance: 7.107 Minibatch_accuracy_micro: 0.000
+Epoch: [1/150] Step:    10  Minibatch_loss_performance: 13.461 Minibatch_accuracy_micro: 0.018
+Epoch: [1/150] Step:    20  Minibatch_loss_performance: 7.702 Minibatch_accuracy_micro: 0.016
+Epoch: [1/150] Step:    30  Minibatch_loss_performance: 7.115 Minibatch_accuracy_micro: 0.008

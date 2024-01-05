@@ -125,7 +125,7 @@ def load_data(data_root, dataset, phase, batch_size, sampler_dic=None, num_worke
 
     print('Use data transformation:', transform)
 
-    set_ = LT_Dataset(data_root, txt, transform)
+    set_ = LT_Dataset(data_root, txt, phase, transform)
     print(len(set_))
     if phase == 'test' and test_open:
         open_txt = './data/%s/%s_open.txt'%(dataset, dataset)

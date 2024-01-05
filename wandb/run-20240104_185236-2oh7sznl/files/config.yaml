@@ -1,0 +1,115 @@
+wandb_version: 1
+
+coslr:
+  desc: null
+  value: true
+criterions:
+  desc: null
+  value:
+    PerformanceLoss:
+      def_file: ./loss/SoftmaxLoss.py
+      loss_params: {}
+      optim_params: null
+      weight: 1.0
+endlr:
+  desc: null
+  value: 0.0
+last:
+  desc: null
+  value: false
+memory:
+  desc: null
+  value:
+    centroids: false
+    init_centroids: false
+model_dir:
+  desc: null
+  value: null
+networks:
+  desc: null
+  value:
+    classifier:
+      def_file: ./models/DotProductClassifier.py
+      optim_params:
+        lr: 0.2
+        momentum: 0.9
+        weight_decay: 0.0005
+      params:
+        dataset: ImageNet_LT
+        feat_dim: 2048
+        log_dir: ./logs/ImageNet_LT/models/resnext50_uniform_e90
+        num_classes: 1000
+        stage1_weights: false
+    feat_model:
+      def_file: ./models/ResNext50Feature.py
+      fix: false
+      optim_params:
+        lr: 0.2
+        momentum: 0.9
+        weight_decay: 0.0005
+      params:
+        dataset: ImageNet_LT
+        dropout: null
+        log_dir: ./logs/ImageNet_LT/models/resnext50_uniform_e90
+        stage1_weights: false
+        use_fc: false
+        use_selfatt: false
+shuffle:
+  desc: null
+  value: false
+training_opt:
+  desc: null
+  value:
+    backbone: resnext50
+    batch_size: 512
+    dataset: ImageNet_LT
+    display_step: 10
+    feature_dim: 2048
+    log_dir: ./logs/ImageNet_LT/models/resnext50_uniform_e90
+    log_root: /logs/ImageNet_LT
+    num_classes: 1000
+    num_epochs: 150
+    num_workers: 4
+    open_threshold: 0.1
+    sampler: null
+    scheduler_params:
+      gamma: 0.1
+      step_size: 30
+    stage: resnext50_uniform_e90
+    sub_dir: models
+_wandb:
+  desc: null
+  value:
+    python_version: 3.11.5
+    cli_version: 0.16.1
+    framework: huggingface
+    huggingface_version: 4.36.0
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    start_time: 1704415956.717516
+    t:
+      1:
+      - 1
+      - 5
+      - 11
+      - 41
+      - 49
+      - 53
+      - 55
+      2:
+      - 1
+      - 5
+      - 11
+      - 41
+      - 49
+      - 53
+      - 55
+      3:
+      - 16
+      - 23
+      4: 3.11.5
+      5: 0.16.1
+      6: 4.36.0
+      8:
+      - 5
+      13: linux-x86_64
