@@ -24,7 +24,7 @@ import wandb
 
 
 # only ImageNet is up to date
-data_root = {'ImageNet': '/mnt/zhang-nas/tensorflow_datasets/imagenet2012/',
+data_root = {'ImageNet': '/mnt/zhang-nas/tensorflow_datasets/downloads/manual/imagenet2012',
              'Places': '/datasets01_101/Places365/041019',
              'iNaturalist18': '/checkpoint/bykang/iNaturalist18'}
 
@@ -73,7 +73,7 @@ def update(config, args):
 # ============================================================================
 # LOAD CONFIGURATIONS
 with open(args.cfg) as f:
-    config = yaml.load(f)
+    config = yaml.safe_load(f)
 config = update(config, args)
 
 wandb.init(

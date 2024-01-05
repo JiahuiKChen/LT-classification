@@ -26,6 +26,7 @@ import time
 import numpy as np
 import warnings
 import pdb
+import wandb
 
 
 class model ():
@@ -314,6 +315,7 @@ class model ():
                         }
 
                         self.logger.log_loss(loss_info)
+                        wandb.log(loss_info)
 
                 # Update priority weights if using PrioritizedSampler
                 # if self.training_opt['sampler'] and \
@@ -342,6 +344,7 @@ class model ():
             rsls_eval = self.eval(phase='val')
             rsls.update(rsls_train)
             rsls.update(rsls_eval)
+            wandb.log(rsls)
 
             # Reset class weights for sampling if pri_mode is valid
             if hasattr(self.data['train'].sampler, 'reset_priority'):

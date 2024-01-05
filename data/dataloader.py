@@ -65,13 +65,19 @@ def get_data_transform(split, rgb_mean, rbg_std, key='default'):
 # Dataset
 class LT_Dataset(Dataset):
     
-    def __init__(self, root, txt, transform=None):
+    def __init__(self, root, txt, phase, transform=None):
         self.img_path = []
         self.labels = []
         self.transform = transform
         with open(txt) as f:
             for line in f:
-                self.img_path.append(os.path.join(root, line.split()[0]))
+                if phase == "test":
+                   # test data in imagenet data dirs is just val/*.JPEG, txt files have another dir
+                   txt_path = line.split()[0].split("/")
+                   local_path = os.path.join(txt_path[0], txt_path[-1])
+                   self.img_path.append(os.path.join(root, local_path)) 
+                else:
+                    self.img_path.append(os.path.join(root, line.split()[0]))
                 self.labels.append(int(line.split()[1]))
         
     def __len__(self):
