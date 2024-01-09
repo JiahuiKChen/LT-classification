@@ -65,7 +65,7 @@ def get_data_transform(split, rgb_mean, rbg_std, key='default'):
 # Dataset
 class LT_Dataset(Dataset):
     
-    def __init__(self, root, txt, phase, transform=None):
+    def __init__(self, root, txt, phase, transform=None, synthetic=False, synthetic_root=None, synthetic_txt=None):
         self.img_path = []
         self.labels = []
         self.transform = transform
@@ -78,6 +78,7 @@ class LT_Dataset(Dataset):
                    self.img_path.append(os.path.join(root, local_path)) 
                 else:
                     self.img_path.append(os.path.join(root, line.split()[0]))
+                    # TODO: if synthetic is True, append synthetic data 
                 self.labels.append(int(line.split()[1]))
         
     def __len__(self):
@@ -125,6 +126,8 @@ def load_data(data_root, dataset, phase, batch_size, sampler_dic=None, num_worke
 
     print('Use data transformation:', transform)
 
+    # TODO: IF phase == "train", check for synthetic in configs and pass synthetic 
+    # data root + txt file into LT_Dataset
     set_ = LT_Dataset(data_root, txt, phase, transform)
     print(len(set_))
     if phase == 'test' and test_open:

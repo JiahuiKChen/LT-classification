@@ -133,6 +133,7 @@ if not test_mode:
     splits = ['train', 'train_plain', 'val']
     if dataset not in ['iNaturalist18', 'ImageNet']:
         splits.append('test')
+    # TODO: check for if synthetic data wants to be used, modify this step in dataloader file
     data = {x: dataloader.load_data(data_root=data_root[dataset.rstrip('_LT')],
                                     dataset=dataset, phase=split2phase(x), 
                                     batch_size=training_opt['batch_size'],

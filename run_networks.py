@@ -48,6 +48,7 @@ class model ():
         # Initialize model
         self.init_models()
 
+        # EXAMPLE: how to check for config field (do this for synthetic data)
         # Load pre-trained model parameters
         if 'model_dir' in self.config and self.config['model_dir'] is not None:
             self.load_model(self.config['model_dir'])
