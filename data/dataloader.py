@@ -78,7 +78,7 @@ class LT_Dataset(Dataset):
                    self.img_path.append(os.path.join(root, local_path)) 
                 else:
                     self.img_path.append(os.path.join(root, line.split()[0]))
-                    # TODO: if synthetic is True, append synthetic data 
+                    # TODO: if synthetic is True, append synthetic data based on txt and root file
                 self.labels.append(int(line.split()[1]))
         
     def __len__(self):
