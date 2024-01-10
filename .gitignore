@@ -5,3 +5,5 @@ logs
 *.sh
 runs
 .vscode
+
+/wandb
