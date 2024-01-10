@@ -22,7 +22,7 @@ for label in class_labels:
     int_label = int(label)
     txt_label = class_labels[label]
     needed_count = 1280 - class_counts[int_label]
-    line = f"{int_label} {txt_label} {needed_count}\n"
+    line = f"{int_label} \"{txt_label}\" {needed_count}\n"
     output_str += line
 
 with open("imagenet_lt_balance_counts.txt", "w") as outuput_file:
