@@ -77,17 +77,9 @@ with open(args.cfg) as f:
 config = update(config, args)
 
 wandb.init(
-    # set the wandb project where this run will be logged
     project="ImageNet-LT",
-
-    # track hyperparameters and run metadata
-    # config={
-    # "learning_rate": 0.02,
-    # "architecture": "ResNext50",
-    # "dataset": "ImageNet-LT",
-    # "epochs": 150,
-    # }
-    config=config
+    config=config,
+    group="test"
 )
 
 test_mode = args.test
@@ -133,10 +125,19 @@ if not test_mode:
     splits = ['train', 'train_plain', 'val']
     if dataset not in ['iNaturalist18', 'ImageNet']:
         splits.append('test')
-    # TODO: check for if synthetic data wants to be used, modify this step in dataloader file
+    # Check if synthetic data is being used
+    synth_data = False
+    synth_root = None
+    if 'synth_data' in training_opt and training_opt['synth_data'] is not None:
+        if training_opt['synth_root'] is None:
+            raise ValueError("synth_data = True, must provide synthetid data root dir.")
+        synth_data = True
+        synth_root = training_opt['synth_root'] 
     data = {x: dataloader.load_data(data_root=data_root[dataset.rstrip('_LT')],
                                     dataset=dataset, phase=split2phase(x), 
                                     batch_size=training_opt['batch_size'],
+                                    synth_data=synth_data,
+                                    synth_root=synth_root,
                                     sampler_dic=sampler_dic,
                                     num_workers=training_opt['num_workers'])
             for x in splits}

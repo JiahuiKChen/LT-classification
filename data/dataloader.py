@@ -15,6 +15,7 @@ All rights reserved.
 
 import numpy as np
 import torchvision
+import random
 from torch.utils.data import Dataset, DataLoader, ConcatDataset
 from torchvision import transforms
 import os
@@ -65,21 +66,31 @@ def get_data_transform(split, rgb_mean, rbg_std, key='default'):
 # Dataset
 class LT_Dataset(Dataset):
     
-    def __init__(self, root, txt, phase, transform=None, synthetic=False, synthetic_root=None, synthetic_txt=None):
+    def __init__(self, root, txt, phase, transform=None, synthetic=False, synthetic_root=None):
         self.img_path = []
         self.labels = []
         self.transform = transform
         with open(txt) as f:
             for line in f:
-                if phase == "test":
+                if phase == 'test':
                    # test data in imagenet data dirs is just val/*.JPEG, txt files have another dir
                    txt_path = line.split()[0].split("/")
                    local_path = os.path.join(txt_path[0], txt_path[-1])
                    self.img_path.append(os.path.join(root, local_path)) 
                 else:
                     self.img_path.append(os.path.join(root, line.split()[0]))
-                    # TODO: if synthetic is True, append synthetic data based on txt and root file
                 self.labels.append(int(line.split()[1]))
+        # add synthetic training data if specified
+        if phase == 'train' and synthetic:
+            synth_dir = os.fsencode(synthetic_root)
+            for file in os.listdir(synth_dir):
+                img_name = os.fsdecode(file)
+                self.img_path.append(os.path.join(synthetic_root, img_name))
+                self.labels.append(int(img_name.split('_')[0]))
+            # shuffle synthetic and real data so (hopefully) model is more adapted to synthetic data
+            paths_and_labels = list(zip(self.img_path, self.labels)) 
+            random.shuffle(paths_and_labels)
+            self.img_path, self.labels = zip(*paths_and_labels)
         
     def __len__(self):
         return len(self.labels)
@@ -98,7 +109,7 @@ class LT_Dataset(Dataset):
         return sample, label, index
 
 # Load datasets
-def load_data(data_root, dataset, phase, batch_size, sampler_dic=None, num_workers=4, test_open=False, shuffle=True):
+def load_data(data_root, dataset, phase, batch_size, synth_data, synth_root, sampler_dic=None, num_workers=4, test_open=False, shuffle=True):
 
     if phase == 'train_plain':
         txt_split = 'train'
@@ -126,10 +137,13 @@ def load_data(data_root, dataset, phase, batch_size, sampler_dic=None, num_worke
 
     print('Use data transformation:', transform)
 
-    # TODO: IF phase == "train", check for synthetic in configs and pass synthetic 
-    # data root + txt file into LT_Dataset
-    set_ = LT_Dataset(data_root, txt, phase, transform)
+    # Pass in synthetic data if specified, only during train
+    if phase == 'train' and synth_data:
+        set_ = LT_Dataset(data_root, txt, phase, transform, synth_data, synth_root)
+    else: 
+        set_ = LT_Dataset(data_root, txt, phase, transform)
     print(len(set_))
+
     if phase == 'test' and test_open:
         open_txt = './data/%s/%s_open.txt'%(dataset, dataset)
         print('Testing with opensets from %s'%(open_txt))
