@@ -16,9 +16,11 @@ All rights reserved.
 import numpy as np
 import torchvision
 import random
+import torch
 from torch.utils.data import Dataset, DataLoader, ConcatDataset
 from torchvision import transforms
 import os
+import wandb
 from PIL import Image
 
 # Image statistics
@@ -32,6 +34,8 @@ RGB_statistics = {
         'std':[0.229, 0.224, 0.225]
     }
 }
+
+CORRUPTED_COUNT = 0
 
 # Data transformation with augmentation
 def get_data_transform(split, rgb_mean, rbg_std, key='default'):
@@ -101,7 +105,13 @@ class LT_Dataset(Dataset):
         label = self.labels[index]
         
         with open(path, 'rb') as f:
-            sample = Image.open(f).convert('RGB')
+            try:
+                sample = Image.open(f).convert('RGB')
+            except:
+                CORRUPTED_COUNT += 1
+                wandb.log({"corrupted_count": CORRUPTED_COUNT})
+                return None
+
         
         if self.transform is not None:
             sample = self.transform(sample)
@@ -154,7 +164,12 @@ def load_data(data_root, dataset, phase, batch_size, synth_data, synth_root, sam
         print('Using sampler: ', sampler_dic['sampler'])
         # print('Sample %s samples per-class.' % sampler_dic['num_samples_cls'])
         print('Sampler parameters: ', sampler_dic['params'])
-        return DataLoader(dataset=set_, batch_size=batch_size, shuffle=False,
+
+        def collate_fn(batch):
+            batch = list(filter(lambda x: x is not None, batch))
+            return torch.utils.data.dataloader.default_collate(batch)
+        
+        return DataLoader(dataset=set_, batch_size=batch_size, shuffle=False, collate_fn=collate_fn,
                            sampler=sampler_dic['sampler'](set_, **sampler_dic['params']),
                            num_workers=num_workers)
     else:
