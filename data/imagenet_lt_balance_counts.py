@@ -17,20 +17,23 @@ with open("ImageNet_LT/ImageNet_LT_train.txt") as training_data:
 
 total_images_needed = 0
 for c in class_counts:
-    total_images_needed += class_counts[c]
+    total_images_needed += 1280 - class_counts[c]
 
 # save file where each line is:
 #   <class label (int)> <text label> <count of images to generate to get to 1280>
 output_str = ""
+sanity = 0
 for label in class_labels:
     int_label = int(label)
     txt_label = class_labels[label]
     needed_count = 1280 - class_counts[int_label]
+    sanity += needed_count
     line = f"{int_label} \"{txt_label}\" {needed_count}\n"
     output_str += line
 
-with open("imagenet_lt_balance_counts.txt", "w") as outuput_file:
-    outuput_file.write(output_str)
+# with open("imagenet_lt_balance_counts.txt", "w") as outuput_file:
+#     outuput_file.write(output_str)
 
-# 115,846 total images needed RIPPPP
+# 1,164,154 total images needed RIPPPP
 print(total_images_needed)
+print(sanity == total_images_needed)
