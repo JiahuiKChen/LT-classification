@@ -98,7 +98,7 @@ class model ():
         print("Using", torch.cuda.device_count(), "GPUs.")
         
         for key, val in networks_defs.items():
-
+ 
             # Networks
             def_file = val['def_file']
             # model_args = list(val['params'].values())

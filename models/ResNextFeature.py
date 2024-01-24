@@ -9,7 +9,7 @@ LICENSE file in the root directory of this source tree.
 import math
 import torch.nn as nn
 import torch.nn.functional as F
-from layers.ModulatedAttLayer import ModulatedAttLayer
+# from layers.ModulatedAttLayer import ModulatedAttLayer
 
 def conv3x3(in_planes, out_planes, stride=1):
     """3x3 convolution with padding"""
@@ -92,7 +92,8 @@ class ResNext(nn.Module):
 
     def __init__(self, block, layers, groups=1, width_per_group=64,
                  use_modulatedatt=False, use_fc=False, dropout=None,
-                 use_glore=False, use_gem=False):
+                 is_resnext=True,
+                  use_glore=False, use_gem=False): # last 2 are unused
         self.inplanes = 64
         super(ResNext, self).__init__()
 
@@ -104,10 +105,10 @@ class ResNext(nn.Module):
         self.bn1 = nn.BatchNorm2d(64)
         self.relu = nn.ReLU(inplace=True)
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
-        self.layer1 = self._make_layer(block, 64, layers[0])
-        self.layer2 = self._make_layer(block, 128, layers[1], stride=2)
-        self.layer3 = self._make_layer(block, 256, layers[2], stride=2)
-        self.layer4 = self._make_layer(block, 512, layers[3], stride=2)
+        self.layer1 = self._make_layer(block, 64, layers[0], is_resnext)
+        self.layer2 = self._make_layer(block, 128, layers[1], is_resnext, stride=2)
+        self.layer3 = self._make_layer(block, 256, layers[2], is_resnext, stride=2)
+        self.layer4 = self._make_layer(block, 512, layers[3], is_resnext, stride=2)
         self.avgpool = nn.AvgPool2d(7, stride=1)
         
         self.use_fc = use_fc
@@ -124,7 +125,7 @@ class ResNext(nn.Module):
         self.use_modulatedatt = use_modulatedatt
         if self.use_modulatedatt:
             print('Using self attention.')
-            self.modulatedatt = ModulatedAttLayer(in_channels=512*block.expansion)
+            # self.modulatedatt = ModulatedAttLayer(in_channels=512*block.expansion)
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
@@ -134,7 +135,7 @@ class ResNext(nn.Module):
                 m.weight.data.fill_(1)
                 m.bias.data.zero_()
 
-    def _make_layer(self, block, planes, blocks, stride=1, is_last=False):
+    def _make_layer(self, block, planes, blocks, is_resnext=True, stride=1, is_last=False):
         downsample = None
         if stride != 1 or self.inplanes != planes * block.expansion:
             downsample = nn.Sequential(
@@ -144,13 +145,20 @@ class ResNext(nn.Module):
             )
 
         layers = []
-        layers.append(block(self.inplanes, planes, stride, downsample,
-                            groups=self.groups, base_width=self.base_width))
-        self.inplanes = planes * block.expansion
-        for i in range(1, blocks):
-            layers.append(block(self.inplanes, planes,
-                                groups=self.groups, base_width=self.base_width,
-                                is_last=(is_last and i == blocks-1)))
+        if is_resnext:
+            layers.append(block(self.inplanes, planes, stride, downsample,
+                                groups=self.groups, base_width=self.base_width))
+            self.inplanes = planes * block.expansion
+            for i in range(1, blocks):
+                layers.append(block(self.inplanes, planes,
+                                    groups=self.groups, base_width=self.base_width,
+                                    is_last=(is_last and i == blocks-1)))
+        # For ResNext18
+        else:
+            layers.append(block(self.inplanes, planes, stride, downsample))
+            self.inplanes = planes * block.expansion
+            for i in range(1, blocks):
+                layers.append(block(self.inplanes, planes))
 
         return nn.Sequential(*layers)
 

@@ -24,9 +24,9 @@ import wandb
 
 
 # only ImageNet is up to date
-# MIDI ImageNet
-# ImageNet': '/mnt/zhang-nas/tensorflow_datasets/downloads/manual/imagenet2012',
-data_root = {'ImageNet': '/datastor1/imagenet2012_manual', # A40 ImageNet
+# 'ImageNet': '/mnt/zhang-nas/tensorflow_datasets/downloads/manual/imagenet2012', # MIDI ImageNet 
+# 'ImageNet': '/datastor1/imagenet2012_manual', # A40 ImageNet
+data_root = {'ImageNet': '/mnt/zhang-nas/tensorflow_datasets/downloads/manual/imagenet2012', # MIDI ImageNet 
              'Places': '/datasets01_101/Places365/041019',
              'iNaturalist18': '/checkpoint/bykang/iNaturalist18'}
 
@@ -81,7 +81,8 @@ config = update(config, args)
 wandb.init(
     project="ImageNet-LT",
     config=config,
-    name="1_rand_img_cond"
+    name="rand_img_cond",
+    group="resnext18"
 )
 
 test_mode = args.test
@@ -132,7 +133,7 @@ if not test_mode:
     synth_root = None
     if 'synth_data' in training_opt and training_opt['synth_data'] is not None:
         if training_opt['synth_root'] is None:
-            raise ValueError("synth_data = True, must provide synthetid data root dir.")
+            raise ValueError("synth_data = True, must provide synthetic data root dir.")
         synth_data = True
         synth_root = training_opt['synth_root'] 
     data = {x: dataloader.load_data(data_root=data_root[dataset.rstrip('_LT')],
