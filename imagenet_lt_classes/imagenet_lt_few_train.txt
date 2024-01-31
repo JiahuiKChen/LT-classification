@@ -1,0 +1,136 @@
+15 "robin, American robin, Turdus migratorius" n01558993 7
+17 "jay" n01580077 13
+38 "banded gecko" n01675722 14
+41 "whiptail, whiptail lizard" n01685808 15
+56 "king snake, kingsnake" n01734418 16
+58 "water snake" n01737021 5
+65 "sea snake" n01751748 8
+73 "barn spider, Araneus cavaticus" n01773549 10
+79 "centipede" n01784675 15
+87 "African grey, African gray, Psittacus erithacus" n01817953 19
+94 "hummingbird" n01833805 15
+100 "black swan, Cygnus atratus" n01860187 10
+102 "echidna, spiny anteater, anteater" n01872401 14
+127 "white stork, Ciconia ciconia" n02002556 11
+140 "red-backed sandpiper, dunlin, Erolia alpina" n02027492 11
+142 "dowitcher" n02033041 16
+152 "Japanese spaniel" n02085782 10
+155 "Shih-Tzu" n02086240 5
+170 "Irish wolfhound" n02090721 7
+180 "American Staffordshire terrier, Staffordshire terrier, American pit bull terrier, pit bull terrier" n02093428 10
+196 "miniature schnauzer" n02097047 10
+204 "Lhasa, Lhasa apso" n02098413 18
+210 "German short-haired pointer" n02100236 11
+211 "vizsla, Hungarian pointer" n02100583 11
+223 "schipperke" n02104365 11
+231 "collie" n02106030 7
+234 "Rottweiler" n02106550 6
+237 "miniature pinscher" n02107312 13
+248 "Eskimo dog, husky" n02109961 17
+260 "chow, chow chow" n02112137 12
+265 "toy poodle" n02113624 14
+267 "standard poodle" n02113799 14
+268 "Mexican hairless" n02113978 6
+274 "dhole, Cuon alpinus" n02115913 15
+283 "Persian cat" n02123394 19
+285 "Egyptian cat" n02124075 12
+286 "cougar, puma, catamount, mountain lion, painter, panther, Felis concolor" n02125311 12
+293 "cheetah, chetah, Acinonyx jubatus" n02130308 19
+298 "mongoose" n02137549 11
+303 "long-horned beetle, longicorn, longicorn beetle" n02168699 18
+306 "rhinoceros beetle" n02174001 19
+307 "weevil" n02177972 10
+317 "leafhopper" n02259212 16
+322 "ringlet, ringlet butterfly" n02277742 19
+328 "sea urchin" n02319095 8
+337 "beaver" n02363005 7
+339 "sorrel" n02389026 17
+343 "warthog" n02397096 15
+349 "bighorn, bighorn sheep, cimarron, Rocky Mountain bighorn, Rocky Mountain sheep, Ovis canadensis" n02415577 16
+356 "weasel" n02441942 5
+358 "polecat, fitch, foulmart, foumart, Mustela putorius" n02443114 11
+376 "proboscis monkey, Nasalis larvatus" n02489166 12
+384 "indri, indris, Indri indri, Indri brevicaudatus" n02500267 6
+385 "Indian elephant, Elephas maximus" n02504013 6
+397 "puffer, pufferfish, blowfish, globefish" n02655020 10
+409 "analog clock" n02708093 13
+424 "barbershop" n02791270 10
+431 "bassinet" n02804414 10
+434 "bath towel" n02808304 16
+436 "beach wagon, station wagon, wagon, estate car, beach waggon, station waggon, waggon" n02814533 14
+438 "beaker" n02815834 10
+455 "bottlecap" n02877765 17
+461 "breastplate, aegis, egis" n02895154 19
+463 "bucket, pail" n02909870 15
+467 "butcher shop, meat market" n02927161 16
+482 "cassette player" n02979186 8
+491 "chain saw, chainsaw" n03000684 6
+498 "cinema, movie theater, movie theatre, movie house, picture palace" n03032252 6
+514 "cowboy boot" n03124043 8
+523 "crutch" n03141823 8
+538 "dome" n03220513 6
+542 "drumstick" n03250847 16
+544 "Dutch oven" n03259280 10
+556 "fire screen, fireguard" n03347037 10
+568 "fur coat" n03404251 8
+575 "golfcart, golf cart" n03445924 14
+576 "gondola" n03447447 14
+579 "grand piano, grand" n03452741 14
+588 "hamper" n03482405 18
+606 "iron, smoothing iron" n03584829 8
+614 "kimono" n03617480 19
+632 "loudspeaker, speaker, speaker unit, loudspeaker system, speaker system" n03691459 10
+633 "loupe, jeweler's loupe" n03692522 10
+646 "maze, labyrinth" n03733281 6
+650 "microphone, mike" n03759954 6
+660 "mobile home, manufactured home" n03776460 10
+669 "mosquito net" n03788365 15
+689 "overskirt" n03866082 16
+702 "parallel bars, bars" n03888605 15
+708 "pedestal, plinth, footstall" n03903868 8
+718 "pier" n03933933 14
+720 "pill bottle" n03937543 13
+726 "plane, carpenter's plane, woodworking plane" n03954731 6
+730 "plow, plough" n03967562 8
+731 "plunger, plumber's helper" n03970156 11
+738 "pot, flowerpot" n03991062 9
+741 "prayer rug, prayer mat" n03998194 14
+747 "punching bag, punch bag, punching ball, punchball" n04023962 5
+756 "rain barrel" n04049303 7
+759 "reflex camera" n04069434 9
+766 "rotisserie" n04111531 9
+776 "sax, saxophone" n04141076 11
+778 "scale, weighing machine" n04141975 12
+792 "shovel" n04208210 14
+797 "sleeping bag" n04235860 15
+800 "slot, one-armed bandit" n04243546 11
+813 "spatula" n04270147 19
+815 "spider web, spider's web" n04275548 17
+823 "stethoscope" n04317175 7
+840 "swab, swob, mop" n04367480 17
+842 "swimming trunks, bathing trunks" n04371430 18
+848 "tape player" n04392985 8
+852 "tennis ball" n04409515 17
+853 "thatch, thatched roof" n04417672 10
+854 "theater curtain, theatre curtain" n04418357 9
+860 "tobacco shop, tobacconist shop, tobacconist" n04443257 6
+865 "toyshop" n04462240 5
+866 "tractor" n04465501 8
+867 "trailer truck, tractor trailer, trucking rig, rig, articulated lorry, semi" n04467665 9
+869 "trench coat" n04479046 15
+873 "triumphal arch" n04486054 11
+877 "turnstile" n04501370 19
+883 "vase" n04522168 15
+887 "vestment" n04532106 6
+911 "wool, woolen, woollen" n04599235 16
+912 "worm fence, snake fence, snake-rail fence, Virginia fence" n04604644 13
+916 "web site, website, internet site, site" n06359193 19
+917 "comic book" n06596364 7
+935 "mashed potato" n07711569 7
+941 "acorn squash" n07717410 18
+959 "carbonara" n07831146 17
+962 "meat loaf, meatloaf" n07871810 17
+963 "pizza, pizza pie" n07873807 19
+992 "agaric" n12998815 19
+993 "gyromitra" n13037406 15
+996 "hen-of-the-woods, hen of the woods, Polyporus frondosus, Grifola frondosa" n13052670 19

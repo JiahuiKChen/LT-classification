@@ -1,0 +1,385 @@
+1 "goldfish, Carassius auratus" n01443537 250
+2 "great white shark, white shark, man-eater, man-eating shark, Carcharodon carcharias" n01484850 516
+3 "tiger shark, Galeocerdo cuvieri" n01491361 352
+4 "hammerhead, hammerhead shark" n01494475 143
+8 "hen" n01514859 150
+14 "indigo bunting, indigo finch, indigo bird, Passerina cyanea" n01537544 121
+16 "bulbul" n01560419 232
+18 "magpie" n01582220 392
+19 "chickadee" n01592084 157
+21 "kite" n01608432 181
+22 "bald eagle, American eagle, Haliaeetus leucocephalus" n01614925 177
+23 "vulture" n01616318 171
+24 "great grey owl, great gray owl, Strix nebulosa" n01622779 114
+26 "common newt, Triturus vulgaris" n01630670 134
+28 "spotted salamander, Ambystoma maculatum" n01632458 279
+29 "axolotl, mud puppy, Ambystoma mexicanum" n01632777 248
+30 "bullfrog, Rana catesbeiana" n01641577 287
+34 "leatherback turtle, leatherback, leathery turtle, Dermochelys coriacea" n01665541 118
+42 "agama" n01687978 236
+43 "frilled lizard, Chlamydosaurus kingi" n01688243 103
+46 "green lizard, Lacerta viridis" n01693334 346
+48 "Komodo dragon, Komodo lizard, dragon lizard, giant lizard, Varanus komodoensis" n01695060 201
+50 "American alligator, Alligator mississipiensis" n01698640 376
+52 "thunder snake, worm snake, Carphophis amoenus" n01728572 189
+55 "green snake, grass snake" n01729977 157
+57 "garter snake, grass snake" n01735189 173
+61 "boa constrictor, Constrictor constrictor" n01742172 150
+67 "diamondback, diamondback rattlesnake, Crotalus adamanteus" n01755581 297
+68 "sidewinder, horned rattlesnake, Crotalus cerastes" n01756291 349
+72 "black and gold garden spider, Argiope aurantia" n01773157 428
+74 "garden spider, Aranea diademata" n01773797 137
+80 "black grouse" n01795545 126
+83 "prairie chicken, prairie grouse, prairie fowl" n01798484 135
+84 "peacock" n01806143 226
+85 "quail" n01806567 281
+86 "partridge" n01807496 1280
+89 "sulphur-crested cockatoo, Kakatoe galerita, Cacatua galerita" n01819313 502
+90 "lorikeet" n01820546 186
+93 "hornbill" n01829413 222
+97 "drake" n01847000 819
+103 "platypus, duckbill, duckbilled platypus, duck-billed platypus, Ornithorhynchus anatinus" n01873310 111
+106 "wombat" n01883070 116
+107 "jellyfish" n01910747 133
+108 "sea anemone, anemone" n01914609 128
+112 "conch" n01943899 393
+114 "slug" n01945685 179
+115 "sea slug, nudibranch" n01950731 124
+117 "chambered nautilus, pearly nautilus, nautilus" n01968897 604
+119 "rock crab, Cancer irroratus" n01978455 240
+121 "king crab, Alaska crab, Alaskan king crab, Alaska king crab, Paralithodes camtschatica" n01981276 148
+126 "isopod" n01990800 246
+129 "spoonbill" n02006656 161
+131 "little blue heron, Egretta caerulea" n02009229 370
+132 "American egret, great white heron, Egretta albus" n02009912 197
+133 "bittern" n02011460 155
+134 "crane" n02012849 285
+137 "American coot, marsh hen, mud hen, water hen, Fulica americana" n02018207 178
+147 "grey whale, gray whale, devilfish, Eschrichtius gibbosus, Eschrichtius robustus" n02066245 105
+148 "killer whale, killer, orca, grampus, sea wolf, Orcinus orca" n02071294 189
+150 "sea lion" n02077923 126
+156 "Blenheim spaniel" n02086646 245
+161 "basset, basset hound" n02088238 119
+168 "redbone" n02090379 112
+172 "whippet" n02091134 272
+173 "Ibizan hound, Ibizan Podenco" n02091244 469
+174 "Norwegian elkhound, elkhound" n02091467 150
+176 "Saluki, gazelle hound" n02091831 199
+177 "Scottish deerhound, deerhound" n02092002 137
+182 "Border terrier" n02093754 367
+191 "Airedale, Airedale terrier" n02096051 244
+192 "cairn, cairn terrier" n02096177 305
+194 "Dandie Dinmont, Dandie Dinmont terrier" n02096437 106
+201 "silky terrier, Sydney silky" n02097658 214
+205 "flat-coated retriever" n02099267 125
+206 "curly-coated retriever" n02099429 110
+207 "golden retriever" n02099601 119
+212 "English setter" n02100735 114
+213 "Irish setter, red setter" n02100877 171
+219 "cocker spaniel, English cocker spaniel, cocker" n02102318 496
+224 "groenendael" n02105056 117
+229 "Old English sheepdog, bobtail" n02105641 138
+235 "German shepherd, German shepherd dog, German police dog, alsatian" n02106662 281
+240 "Appenzeller" n02107908 126
+241 "EntleBucher" n02108000 127
+244 "Tibetan mastiff" n02108551 172
+245 "French bulldog" n02108915 119
+247 "Saint Bernard, St Bernard" n02109525 163
+250 "Siberian husky" n02110185 181
+253 "basenji" n02110806 167
+257 "Great Pyrenees" n02111500 282
+261 "keeshond" n02112350 137
+262 "Brabancon griffon" n02112706 102
+269 "timber wolf, grey wolf, gray wolf, Canis lupus" n02114367 132
+270 "white wolf, Arctic wolf, Canis lupus tundrarum" n02114548 303
+272 "coyote, prairie wolf, brush wolf, Canis latrans" n02114855 167
+276 "hyena, hyaena" n02117135 187
+278 "kit fox, Vulpes macrotis" n02119789 310
+279 "Arctic fox, white fox, Alopex lagopus" n02120079 137
+280 "grey fox, gray fox, Urocyon cinereoargenteus" n02120505 241
+281 "tabby, tabby cat" n02123045 123
+284 "Siamese cat, Siamese" n02123597 186
+296 "ice bear, polar bear, Ursus Maritimus, Thalarctos maritimus" n02134084 330
+302 "ground beetle, carabid beetle" n02167151 208
+304 "leaf beetle, chrysomelid" n02169497 566
+309 "bee" n02206856 306
+311 "grasshopper, hopper" n02226429 119
+315 "mantis, mantid" n02236044 143
+318 "lacewing, lacewing fly" n02264363 611
+319 "dragonfly, darning needle, devil's darning needle, sewing needle, snake feeder, snake doctor, mosquito hawk, skeeter hawk" n02268443 290
+320 "damselfly" n02268853 170
+321 "admiral" n02276258 114
+325 "sulphur butterfly, sulfur butterfly" n02281406 128
+327 "starfish, sea star" n02317335 332
+329 "sea cucumber, holothurian" n02321529 446
+331 "hare" n02326432 122
+333 "hamster" n02342885 1121
+335 "fox squirrel, eastern fox squirrel, Sciurus niger" n02356798 109
+336 "marmot" n02361337 133
+338 "guinea pig, Cavia cobaya" n02364673 174
+340 "zebra" n02391049 283
+341 "hog, pig, grunter, squealer, Sus scrofa" n02395406 140
+345 "ox" n02403003 134
+346 "water buffalo, water ox, Asiatic buffalo, Bubalus bubalis" n02408429 167
+347 "bison" n02410509 198
+348 "ram, tup" n02412080 149
+350 "ibex, Capra ibex" n02417914 122
+352 "impala, Aepyceros melampus" n02422699 194
+353 "gazelle" n02423022 149
+355 "llama" n02437616 156
+357 "mink" n02442845 127
+361 "skunk, polecat, wood pussy" n02445715 143
+362 "badger" n02447366 145
+363 "armadillo" n02454379 169
+365 "orangutan, orang, orangutang, Pongo pygmaeus" n02480495 158
+367 "chimpanzee, chimp, Pan troglodytes" n02481823 128
+371 "patas, hussar monkey, Erythrocebus patas" n02486261 391
+372 "baboon" n02486410 349
+374 "langur" n02488291 123
+375 "colobus, colobus monkey" n02488702 232
+378 "capuchin, ringtail, Cebus capucinus" n02492035 137
+387 "lesser panda, red panda, panda, bear cat, cat bear, Ailurus fulgens" n02509815 231
+388 "giant panda, panda, panda bear, coon bear, Ailuropoda melanoleuca" n02510455 171
+390 "eel" n02526121 108
+392 "rock beauty, Holocanthus tricolor" n02606052 101
+394 "sturgeon" n02640242 122
+396 "lionfish" n02643566 165
+398 "abacus" n02666196 372
+402 "acoustic guitar" n02676566 679
+404 "airliner" n02690373 257
+408 "amphibian, amphibious vehicle" n02704792 275
+412 "ashcan, trash can, garbage can, wastebin, ash bin, ash-bin, ashbin, dustbin, trash barrel, trash bin" n02747177 118
+413 "assault rifle, assault gun" n02749479 411
+414 "backpack, back pack, knapsack, packsack, rucksack, haversack" n02769748 159
+415 "bakery, bakeshop, bakehouse" n02776631 124
+417 "balloon" n02782093 1053
+418 "ballpoint, ballpoint pen, ballpen, Biro" n02783161 111
+419 "Band Aid" n02786058 184
+423 "barber chair" n02791124 150
+426 "barometer" n02794156 109
+435 "bathtub, bathing tub, bath, tub" n02808440 157
+437 "beacon, lighthouse, beacon light, pharos" n02814860 141
+441 "beer glass" n02823750 152
+442 "bell cote, bell cot" n02825657 165
+443 "bib" n02834397 112
+444 "bicycle-built-for-two, tandem bicycle, tandem" n02835271 480
+447 "binoculars, field glasses, opera glasses" n02841315 113
+449 "boathouse" n02859443 236
+451 "bolo tie, bolo, bola tie, bola" n02865351 137
+453 "bookcase" n02870880 147
+454 "bookshop, bookstore, bookstall" n02871525 511
+460 "breakwater, groin, groyne, mole, bulwark, seawall, jetty" n02894605 333
+464 "buckle" n02910353 224
+465 "bulletproof vest" n02916936 108
+466 "bullet train, bullet" n02917067 152
+468 "cab, hack, taxi, taxicab" n02930766 186
+469 "caldron, cauldron" n02939185 114
+472 "canoe" n02951358 125
+473 "can opener, tin opener" n02951585 155
+475 "car mirror" n02965783 186
+476 "carousel, carrousel, merry-go-round, roundabout, whirligig" n02966193 188
+477 "carpenter's kit, tool kit" n02966687 134
+479 "car wheel" n02974003 121
+480 "cash machine, cash dispenser, automated teller machine, automatic teller machine, automated teller, automatic teller, ATM" n02977058 288
+485 "CD player" n02988304 346
+486 "cello, violoncello" n02992211 127
+487 "cellular telephone, cellular phone, cellphone, cell, mobile phone" n02992529 232
+488 "chain" n02999410 123
+490 "chain mail, ring mail, mail, chain armor, chain armour, ring armor, ring armour" n03000247 652
+492 "chest" n03014705 154
+493 "chiffonier, commode" n03016953 203
+496 "Christmas stocking" n03026506 178
+501 "cloak" n03045698 102
+503 "cocktail shaker" n03062245 105
+508 "computer keyboard, keypad" n03085013 122
+509 "confectionery, confectionary, candy store" n03089624 220
+515 "cowboy hat, ten-gallon hat" n03124170 142
+518 "crash helmet" n03127747 231
+519 "crate" n03127925 619
+520 "crib, cot" n03131574 162
+522 "croquet ball" n03134739 134
+528 "dial telephone, dial phone" n03187595 116
+532 "dining table, board" n03201208 330
+535 "disk brake, disc brake" n03208938 143
+536 "dock, dockage, docking facility" n03216828 110
+537 "dogsled, dog sled, dog sleigh" n03218198 191
+540 "drilling platform, offshore rig" n03240683 153
+545 "electric fan, blower" n03271574 422
+548 "entertainment center" n03290653 507
+549 "envelope" n03291819 168
+550 "espresso maker" n03297495 104
+554 "fireboat" n03344393 382
+555 "fire engine, fire truck" n03345487 148
+557 "flagpole, flagstaff" n03355925 164
+559 "folding chair" n03376595 310
+560 "football helmet" n03379051 381
+561 "forklift" n03384352 174
+564 "four-poster" n03388549 268
+565 "freight car" n03393912 202
+566 "French horn, horn" n03394916 1173
+567 "frying pan, frypan, skillet" n03400231 110
+569 "garbage truck, dustcart" n03417042 125
+571 "gas pump, gasoline pump, petrol pump, island dispenser" n03425413 340
+573 "go-kart" n03444034 209
+578 "gown" n03450230 252
+580 "greenhouse, nursery, glasshouse" n03457902 239
+583 "guillotine" n03467068 112
+585 "hair spray" n03476991 101
+586 "half track" n03478589 130
+587 "hammer" n03481172 278
+589 "hand blower, blow dryer, blow drier, hair dryer, hair drier" n03483316 220
+591 "handkerchief, hankie, hanky, hankey" n03485794 253
+593 "harmonica, mouth organ, harp, mouth harp" n03494278 292
+594 "harp" n03495258 317
+595 "harvester, reaper" n03496892 179
+597 "holster" n03527444 305
+600 "hook, claw" n03532672 169
+601 "hoopskirt, crinoline" n03534580 683
+603 "horse cart, horse-cart" n03538406 376
+604 "hourglass" n03544143 125
+608 "jean, blue jean, denim" n03594734 298
+609 "jeep, landrover" n03594945 132
+613 "joystick" n03602883 413
+616 "knot" n03627232 354
+617 "lab coat, laboratory coat" n03630383 120
+623 "letter opener, paper knife, paperknife" n03658185 102
+624 "library" n03661043 310
+627 "limousine, limo" n03670208 119
+628 "liner, ocean liner" n03673027 140
+635 "magnetic compass" n03706229 106
+652 "military uniform" n03763968 204
+654 "minibus" n03769881 209
+655 "miniskirt, mini" n03770439 115
+658 "mitten" n03775071 253
+662 "modem" n03777754 104
+665 "moped" n03785016 296
+667 "mortarboard" n03787032 128
+668 "mosque" n03788195 170
+671 "mountain bike, all-terrain bike, off-roader" n03792782 130
+672 "mountain tent" n03792972 138
+674 "mousetrap" n03794056 1246
+675 "moving van" n03796401 107
+678 "neck brace" n03814639 108
+679 "necklace" n03814906 167
+685 "odometer, hodometer, mileometer, milometer" n03841143 113
+686 "oil filter" n03843555 103
+687 "organ, pipe organ" n03854065 264
+694 "paddlewheel, paddle wheel" n03874293 481
+699 "panpipe, pandean pipe, syrinx" n03884397 165
+709 "pencil box, pencil case" n03908618 182
+711 "perfume, essence" n03916031 283
+712 "Petri dish" n03920288 101
+713 "photocopier" n03924679 297
+715 "pickelhaube" n03929855 194
+717 "pickup, pickup truck" n03930630 141
+724 "pirate, pirate ship" n03947888 103
+725 "pitcher, ewer" n03950228 454
+732 "Polaroid camera, Polaroid Land camera" n03976467 131
+733 "pole" n03976657 137
+737 "pop bottle, soda bottle" n03983396 472
+739 "potter's wheel" n03992509 183
+743 "prison, prison house" n04005630 299
+746 "puck, hockey puck" n04019541 392
+752 "racket, racquet" n04039381 194
+755 "radio telescope, radio reflector" n04044716 787
+757 "recreational vehicle, RV, R.V." n04065272 137
+760 "refrigerator, icebox" n04070727 133
+762 "restaurant, eating house, eating place, eatery" n04081281 174
+763 "revolver, six-gun, six-shooter" n04086273 315
+765 "rocking chair, rocker" n04099969 290
+767 "rubber eraser, rubber, pencil eraser" n04116512 263
+768 "rugby ball" n04118538 164
+770 "running shoe" n04120489 129
+773 "saltshaker, salt shaker" n04131690 175
+775 "sarong" n04136333 775
+779 "school bus" n04146614 137
+783 "screw" n04153751 229
+785 "seat belt, seatbelt" n04162706 161
+786 "sewing machine" n04179913 126
+787 "shield, buckler" n04192698 271
+788 "shoe shop, shoe-shop, shoe store" n04200800 221
+794 "shower curtain" n04209239 197
+799 "sliding door" n04239074 130
+802 "snowmobile" n04252077 134
+803 "snowplow, snowplough" n04252225 211
+805 "soccer ball" n04254680 328
+806 "sock" n04254777 302
+807 "solar dish, solar collector, solar furnace" n04258138 205
+810 "space bar" n04264628 102
+812 "space shuttle" n04266014 111
+816 "spindle" n04277352 218
+817 "sports car, sport car" n04285008 128
+818 "spotlight, spot" n04286575 242
+819 "stage" n04296562 188
+820 "steam locomotive" n04310018 166
+821 "steel arch bridge" n04311004 105
+824 "stole" n04325704 189
+827 "stove" n04330267 247
+828 "strainer" n04332243 229
+830 "stretcher" n04336792 343
+832 "stupa, tope" n04346328 146
+834 "suit, suit of clothes" n04350905 285
+844 "switch, electric switch, electrical switch" n04372370 175
+847 "tank, army tank, armored combat vehicle, armoured combat vehicle" n04389033 134
+855 "thimble" n04423845 143
+856 "thresher, thrasher, threshing machine" n04428191 114
+857 "throne" n04429376 101
+858 "tile roof" n04435653 157
+862 "torch" n04456115 192
+870 "tricycle, trike, velocipede" n04482393 642
+872 "tripod" n04485082 107
+875 "trombone" n04487394 459
+876 "tub, vat" n04493381 238
+879 "umbrella" n04507155 134
+880 "unicycle, monocycle" n04509417 252
+882 "vacuum, vacuum cleaner" n04517823 456
+885 "velvet" n04525038 102
+886 "vending machine" n04525305 274
+890 "volleyball" n04540053 140
+891 "waffle iron" n04542943 104
+892 "wall clock" n04548280 112
+893 "wallet, billfold, notecase, pocketbook" n04548362 133
+895 "warplane, military plane" n04552348 182
+896 "washbasin, handbasin, washbowl, lavabo, wash-hand basin" n04553703 170
+898 "water bottle" n04557648 173
+899 "water jug" n04560804 272
+901 "whiskey jug" n04579145 102
+903 "wig" n04584207 138
+904 "window screen" n04589890 150
+905 "window shade" n04590129 116
+906 "Windsor tie" n04591157 110
+907 "wine bottle" n04591713 216
+910 "wooden spoon" n04597913 116
+913 "wreck" n04606251 215
+915 "yurt" n04613696 155
+920 "traffic light, traffic signal, stoplight" n06874185 323
+922 "menu" n07565083 284
+923 "plate" n07579787 172
+924 "guacamole" n07583066 398
+925 "consomme" n07584110 110
+929 "ice lolly, lolly, lollipop, popsicle" n07615774 534
+933 "cheeseburger" n07697313 418
+934 "hotdog, hot dog, red hot" n07697537 141
+944 "artichoke, globe artichoke" n07718747 151
+946 "cardoon" n07730033 103
+947 "mushroom" n07734744 284
+948 "Granny Smith" n07742313 180
+950 "orange" n07747607 175
+951 "lemon" n07749582 472
+952 "fig" n07753113 133
+958 "hay" n07802026 113
+961 "dough" n07860988 172
+965 "burrito" n07880968 124
+968 "cup" n07930864 258
+969 "eggnog" n07932039 108
+972 "cliff, drop, drop-off" n09246464 165
+976 "promontory, headland, head, foreland" n09399592 625
+978 "seashore, coast, seacoast, sea-coast" n09428293 217
+984 "rapeseed" n11879895 714
+985 "daisy" n11939491 143
+986 "yellow lady's slipper, yellow lady-slipper, Cypripedium calceolus, Cypripedium parviflorum" n12057211 141
+987 "corn" n12144580 233
+988 "acorn" n12267677 119
+990 "buckeye, horse chestnut, conker" n12768682 236
+991 "coral fungus" n12985857 150
+995 "earthstar" n13044778 167
