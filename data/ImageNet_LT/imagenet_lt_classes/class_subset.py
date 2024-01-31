@@ -1,4 +1,6 @@
 import numpy as np
+from os import listdir
+import shutil
 
 # class labels for the classes wanted 
 classes = [
@@ -29,28 +31,46 @@ classes = [
 class_set = set(classes)
 
 # generate train, val, and test txt files for given classes
-data_files = [
-    "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_train.txt",
-    "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_val.txt",
-    "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_test.txt"
-    ]
-out_files = [
-    "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_train_90.txt",
-    "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_val_90.txt",
-    "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_test_90.txt" 
-    ]
-for i in range(len(data_files)):
-    output_str = ""
-    file = data_files[i]
-    out_file = out_files[i]
-    with open(file) as data:
-        # if the line contains an image of a class we want, write that line to our new file 
-        for line in data:
-            class_label = int(line.split()[1])
-            if class_label in class_set:
-                output_str += line
+# data_files = [
+#     "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_train.txt",
+#     "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_val.txt",
+#     "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_test.txt"
+#     ]
+# out_files = [
+#     "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_train_90.txt",
+#     "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_val_90.txt",
+#     "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_test_90.txt" 
+#     ]
+# for i in range(len(data_files)):
+#     output_str = ""
+#     file = data_files[i]
+#     out_file = out_files[i]
+#     with open(file) as data:
+#         # if the line contains an image of a class we want, write that line to our new file 
+#         for line in data:
+#             class_label = int(line.split()[1])
+#             if class_label in class_set:
+#                 output_str += line
 
-    with open(out_file, "w") as outuput_file:
-        outuput_file.write(output_str)
+#     with open(out_file, "w") as outuput_file:
+#         outuput_file.write(output_str)
 
 # move generated images of these classes 
+source_dirs = [
+    "/mnt/zhang-nas/jiahuic/synth_LT_data/ImageNetLT/rand_img_cond",
+    "/mnt/zhang-nas/jiahuic/synth_LT_data/ImageNetLT/cutmix", 
+    "/mnt/zhang-nas/jiahuic/synth_LT_data/ImageNetLT/mixup",
+] # TODO: dropout once it's done 
+destination_dirs = [
+    "/mnt/zhang-nas/jiahuic/synth_LT_data/ImageNetLT/rand_img_cond_90",
+    "/mnt/zhang-nas/jiahuic/synth_LT_data/ImageNetLT/cutmix_90", 
+    "/mnt/zhang-nas/jiahuic/synth_LT_data/ImageNetLT/mixup_90",
+]
+for i in range(len(source_dirs)):
+    source_dir = source_dirs[i]
+    dest_dir = destination_dirs[i]
+    all_imgs = listdir(source_dir)
+    for img in all_imgs:
+        label = int(img.split("_")[0])
+        if label in class_set:
+            shutil.copy(f"{source_dir}/{img}", f"{dest_dir}/{img}")
