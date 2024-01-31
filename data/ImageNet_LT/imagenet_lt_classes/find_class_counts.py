@@ -8,7 +8,7 @@ few_count_thresh = 20
 # median is anything in between (inclusive)
 
 # dictionary with label (int) : class text (string)
-with open("/mnt/zhang-nas/jiahuic/LT-classification/data/imagenet1000_class_labels.txt") as data:
+with open("imagenet1000_class_labels.txt") as data:
     class_labels = ast.literal_eval(data.read())
 
 # count how many of each class we have in ImageNetLT train set 
