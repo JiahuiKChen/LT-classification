@@ -1,6 +1,11 @@
 import ast
 import numpy as np
 
+# 136 classes with < 20 images [FEW]
+# 479 classes with between 20-100 images [MEDIAN]
+# 385 classes with > 100 images [MANY]
+
+
 # greater than 100 images is MANY
 many_count_thresh = 100
 # less than 20 is FEW 
@@ -54,3 +59,7 @@ for i in range(len(categories)):
         output_str += line
     with open(f"imagenet_lt_{name}_train.txt", "w") as outuput_file:
         outuput_file.write(output_str)
+
+# 136 classes with < 20 images [FEW]
+# 479 classes with between 20-100 images [MEDIAN]
+# 385 classes with > 100 images [MANY]
