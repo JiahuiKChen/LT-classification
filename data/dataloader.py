@@ -159,7 +159,7 @@ class HalfSynthHalfRealBatchSampler(Sampler):
             # once half the batch is filled with synthetic data,
             # randomly sample last half of batch from all real image indices
             if batch_ind == self.ind_count:
-                real_inds = torch.randint(high=self.real_img_inds_len, size=(self.ind_count,)) 
+                real_inds = torch.randint(high=self.real_img_inds_len, size=(self.ind_count,)).tolist()
                 batch[batch_ind:] = real_inds
                 # shuffle indices so that synthetic and real images are mixed
                 random.shuffle(batch)
