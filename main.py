@@ -81,8 +81,8 @@ config = update(config, args)
 wandb.init(
     project="ImageNet-LT",
     config=config,
-    name="rand_img_cond",
-    group="resnext18"
+    name="baseline",
+    group="90subset_resnext18"
 )
 
 test_mode = args.test
@@ -131,16 +131,24 @@ if not test_mode:
     # Check if synthetic data is being used
     synth_data = False
     synth_root = None
+    data_subset = None
     if 'synth_data' in training_opt and training_opt['synth_data'] is not None:
         if training_opt['synth_root'] is None:
             raise ValueError("synth_data = True, must provide synthetic data root dir.")
         synth_data = True
         synth_root = training_opt['synth_root'] 
+    
+    # if a subset of data is used
+    if 'subset' in training_opt:
+        data_subset = training_opt['subset']  
+
+    # for synthetic data minibatch sampler, that's handled in load_data method
     data = {x: dataloader.load_data(data_root=data_root[dataset.rstrip('_LT')],
                                     dataset=dataset, phase=split2phase(x), 
                                     batch_size=training_opt['batch_size'],
                                     synth_data=synth_data,
                                     synth_root=synth_root,
+                                    data_subset=data_subset,
                                     sampler_dic=sampler_dic,
                                     num_workers=training_opt['num_workers'])
             for x in splits}

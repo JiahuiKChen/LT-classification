@@ -59,9 +59,17 @@ class model ():
             # for each epoch based on actual number of training data instead of 
             # oversampled data number 
             print('Using steps for training.')
-            self.training_data_num = len(self.data['train'].dataset)
-            self.epoch_steps = int(self.training_data_num  \
-                                   / self.training_opt['batch_size'])
+            if 'synth_data' in self.training_opt and self.training_opt['synth_data'] is not None:
+                # if using synthetic data, at each step half the data will be synthetic 
+                # so we must do the number of steps needed to use all synthetic data 
+                # which is number of synthetic images / half the batch size 
+                self.training_data_num = self.data['train'].dataset.synth_data_count
+                self.epoch_steps = int(self.training_data_num  \
+                                    / (self.training_opt['batch_size'] // 2))
+            else:
+                self.training_data_num = len(self.data['train'].dataset)
+                self.epoch_steps = int(self.training_data_num  \
+                                    / self.training_opt['batch_size'])
 
             # Initialize model optimizer and scheduler
             print('Initializing model optimizer.')

@@ -13,11 +13,10 @@ All rights reserved.
 """
 
 
-import numpy as np
-import torchvision
-import random
 import torch
+import random
 from torch.utils.data import Dataset, DataLoader, ConcatDataset
+from torch.utils.data.sampler import Sampler
 from torchvision import transforms
 import os
 import wandb
@@ -74,6 +73,12 @@ class LT_Dataset(Dataset):
         self.img_path = []
         self.labels = []
         self.transform = transform
+        # these are only used during training with synthetic data 
+        self.real_img_inds = [] # needed to repeatedly randomly sample real images 
+        self.synth_img_inds = []
+        self.synth_data_count = 0
+
+        # loading real data
         with open(txt) as f:
             for line in f:
                 if phase == 'test':
@@ -83,7 +88,14 @@ class LT_Dataset(Dataset):
                    self.img_path.append(os.path.join(root, local_path)) 
                 else:
                     self.img_path.append(os.path.join(root, line.split()[0]))
+                
+                # adding labels
                 self.labels.append(int(line.split()[1]))
+
+                # if synthetic data is used, track indices of real data
+                if phase == 'train' and synthetic:
+                    self.real_img_inds = list(range(len(self.labels)))
+        
         # add synthetic training data if specified
         if phase == 'train' and synthetic:
             synth_dir = os.fsencode(synthetic_root)
@@ -91,10 +103,17 @@ class LT_Dataset(Dataset):
                 img_name = os.fsdecode(file)
                 self.img_path.append(os.path.join(synthetic_root, img_name))
                 self.labels.append(int(img_name.split('_')[0]))
-            # shuffle synthetic and real data so (hopefully) model is more adapted to synthetic data
-            paths_and_labels = list(zip(self.img_path, self.labels)) 
-            random.shuffle(paths_and_labels)
-            self.img_path, self.labels = zip(*paths_and_labels)
+                self.synth_data_count += 1
+            # track indices of synthetic data 
+            self.synth_img_inds = list(range(len(self.real_img_inds), len(self.real_img_inds) + self.synth_data_count))
+
+            if len(self.synth_img_inds) != self.synth_data_count:
+                raise ValueError("Synthetic indices don't match synthetic data count")
+            if (len(self.real_img_inds) + self.synth_data_count) != len(self.labels):
+                raise ValueError("Total number of images doesn't match sum of real and synthetic counts")
+            
+        if len(self.labels) != len(self.img_path):
+            raise ValueError("Number of labels and images doesn't match")
         
     def __len__(self):
         return len(self.labels)
@@ -117,9 +136,42 @@ class LT_Dataset(Dataset):
             sample = self.transform(sample)
 
         return sample, label, index
+    
+
+# Synthetic data Sampler
+class HalfSynthHalfRealBatchSampler(Sampler):
+    def __init__(self, dataset, batch_size):
+        self.batch_size = batch_size
+        self.ind_count = batch_size // 2
+        self.real_img_inds_len = len(dataset.real_img_inds)
+        self.synth_img_inds = dataset.synth_img_inds
+
+    # return a mini batch of half real data and half synthetic data
+    # amount of real data is notably less than synthetic, so randomly sample each batch
+    # synthetic data is just sequentially accessed
+    def __iter__ (self):
+        batch = [0] * self.batch_size
+        batch_ind = 0
+        # add each synthetic index to the first half of the batch
+        for synth_ind in self.synth_img_inds:
+            batch[batch_ind] = synth_ind
+            batch_ind += 1
+            # once half the batch is filled with synthetic data,
+            # randomly sample last half of batch from all real image indices
+            if batch_ind == self.ind_count:
+                real_inds = torch.randint(high=self.real_img_inds_len, size=(self.ind_count,)) 
+                batch[batch_ind:] = real_inds
+                # shuffle indices so that synthetic and real images are mixed
+                random.shuffle(batch)
+                yield batch 
+                batch_ind = 0
+                batch = [0] * self.batch_size 
+    
+    def __len__ (self):
+        return self.batch_size
 
 # Load datasets
-def load_data(data_root, dataset, phase, batch_size, synth_data, synth_root, sampler_dic=None, num_workers=4, test_open=False, shuffle=True):
+def load_data(data_root, dataset, phase, batch_size, synth_data, synth_root, data_subset=None, sampler_dic=None, num_workers=4, test_open=False, shuffle=True):
 
     if phase == 'train_plain':
         txt_split = 'train'
@@ -128,7 +180,11 @@ def load_data(data_root, dataset, phase, batch_size, synth_data, synth_root, sam
         phase = 'train'
     else:
         txt_split = phase
-    txt = './data/%s/%s_%s.txt'%(dataset, dataset, txt_split)
+
+    if data_subset:
+        txt = './data/%s/%s_%s_%s.txt'%(dataset, dataset, txt_split, data_subset)
+    else:
+        txt = './data/%s/%s_%s.txt'%(dataset, dataset, txt_split)
     # txt = './data/%s/%s_%s.txt'%(dataset, dataset, (phase if phase != 'train_plain' else 'train'))
 
     print('Loading data from %s' % (txt))
@@ -164,14 +220,18 @@ def load_data(data_root, dataset, phase, batch_size, synth_data, synth_root, sam
         print('Using sampler: ', sampler_dic['sampler'])
         # print('Sample %s samples per-class.' % sampler_dic['num_samples_cls'])
         print('Sampler parameters: ', sampler_dic['params'])
-
-        def collate_fn(batch):
-            batch = list(filter(lambda x: x is not None, batch))
-            return torch.utils.data.dataloader.default_collate(batch)
         
-        return DataLoader(dataset=set_, batch_size=batch_size, shuffle=False, collate_fn=collate_fn,
+        return DataLoader(dataset=set_, batch_size=batch_size, shuffle=False, 
                            sampler=sampler_dic['sampler'](set_, **sampler_dic['params']),
                            num_workers=num_workers)
+    elif synth_data and phase == 'train':
+        # pass synthetic data minibatch sampler into Dataloader 
+        # to ensure each minibatch has 50% synthetic images and 50% real images
+        # batch sampler is mutually exclusive with batch_size and shuffle params 
+       print("Using minibatch balancing HalfSynthHalfRealBatchSampler")
+       return DataLoader(dataset=set_, 
+                         batch_sampler=HalfSynthHalfRealBatchSampler(dataset=set_, batch_size=batch_size), 
+                         num_workers=num_workers) 
     else:
         print('No sampler.')
         print('Shuffle is %s.' % (shuffle))
