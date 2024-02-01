@@ -82,7 +82,7 @@ wandb.init(
     project="ImageNet-LT",
     config=config,
     name="rand_img_cond",
-    group="90subset_resnext18"
+    group="30subset_resnext18"
 )
 
 test_mode = args.test
