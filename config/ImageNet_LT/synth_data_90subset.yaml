@@ -33,7 +33,7 @@ training_opt:
   display_step: 10
   feature_dim: 512 # ResNext18 
   # 2048 # ResNext50 
-  log_dir: ./logs/ImageNet_LT_90subset/models/resnext18_rand_img_cond
+  log_dir: ./logs/ImageNet_LT_90subset/models/resnext18_rand_img_cond_90
   log_root: /logs/ImageNet_LT_90subset
   num_classes: 1000
   num_epochs: 150

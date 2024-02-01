@@ -13,13 +13,13 @@ networks:
   classifier:
     def_file: ./models/DotProductClassifier.py
     optim_params: {lr: 0.2, momentum: 0.9, weight_decay: 0.0005}
-    params: {dataset: ImageNet_LT, feat_dim: 512, log_dir: ./logs/ImageNet_LT_30subset/models/resnext18_rand_img_cond,
+    params: {dataset: ImageNet_LT, feat_dim: 512, log_dir: ./logs/ImageNet_LT_30subset/models/resnext18_mixup,
       num_classes: 1000, stage1_weights: false}
   feat_model:
     def_file: ./models/ResNext18Feature.py
     fix: false
     optim_params: {lr: 0.2, momentum: 0.9, weight_decay: 0.0005}
-    params: {dataset: ImageNet_LT, dropout: null, log_dir: ./logs/ImageNet_LT_30subset/models/resnext18_rand_img_cond,
+    params: {dataset: ImageNet_LT, dropout: null, log_dir: ./logs/ImageNet_LT_30subset/models/resnext18_mixup,
       stage1_weights: false, use_fc: false, use_selfatt: false}
 shuffle: false
 training_opt:
@@ -28,12 +28,12 @@ training_opt:
   dataset: ImageNet_LT
   subset: 30 
   synth_data: true
-  synth_root: /mnt/zhang-nas/jiahuic/synth_LT_data/ImageNetLT/rand_img_cond  # MIDI 
-  # synth_root: /datastor1/jiahuikchen/synth_ImageNet/rand_img_cond # A40
+  synth_root: /mnt/zhang-nas/jiahuic/synth_LT_data/ImageNetLT/mixup_30  # MIDI 
+  # synth_root: /datastor1/jiahuikchen/synth_ImageNet/mixup # A40
   display_step: 10 
   feature_dim: 512 # ResNext18 
   # 2048 # ResNext50 
-  log_dir: ./logs/ImageNet_LT_30subset/models/resnext18_rand_img_cond
+  log_dir: ./logs/ImageNet_LT_30subset/models/resnext18_mixup
   log_root: /logs/ImageNet_LT_30subset
   num_classes: 1000
   num_epochs: 150
@@ -41,5 +41,5 @@ training_opt:
   open_threshold: 0.1
   sampler: null
   scheduler_params: {gamma: 0.1, step_size: 30}
-  stage: resnext18_rand_img_cond
+  stage: resnext18_mixup
   sub_dir: models
