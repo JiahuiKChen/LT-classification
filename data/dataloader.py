@@ -69,7 +69,7 @@ def get_data_transform(split, rgb_mean, rbg_std, key='default'):
 # Dataset
 class LT_Dataset(Dataset):
     
-    def __init__(self, root, txt, phase, transform=None, synthetic=False, synthetic_root=None):
+    def __init__(self, root, txt, phase, transform=None, synthetic=False, synthetic_root=None, data_subset=None):
         self.img_path = []
         self.labels = []
         self.transform = transform
@@ -77,6 +77,9 @@ class LT_Dataset(Dataset):
         self.real_img_inds = [] # needed to repeatedly randomly sample real images 
         self.synth_img_inds = []
         self.synth_data_count = 0
+        # only used if we have a class subset, to map classes to [0, num_classes]
+        class_map = {}
+        class_count = 0
 
         # loading real data
         with open(txt) as f:
@@ -90,7 +93,14 @@ class LT_Dataset(Dataset):
                     self.img_path.append(os.path.join(root, line.split()[0]))
                 
                 # adding labels
-                self.labels.append(int(line.split()[1]))
+                label = int(line.split()[1])
+                if data_subset:
+                    if label not in class_map:
+                        class_map[label] = class_count
+                        class_count += 1 
+                    self.labels.append(class_map[label]) 
+                else:
+                    self.labels.append(label)
 
                 # if synthetic data is used, track indices of real data
                 if phase == 'train' and synthetic:
@@ -102,7 +112,14 @@ class LT_Dataset(Dataset):
             for file in os.listdir(synth_dir):
                 img_name = os.fsdecode(file)
                 self.img_path.append(os.path.join(synthetic_root, img_name))
-                self.labels.append(int(img_name.split('_')[0]))
+                # labels
+                label = int(img_name.split('_')[0])
+                if data_subset:
+                    if label not in class_map:
+                        raise ValueError("Synthetic data class not found in real data classes") 
+                    self.labels.append(class_map[label])
+                else:
+                    self.labels.append(label)
                 self.synth_data_count += 1
             # track indices of synthetic data 
             self.synth_img_inds = list(range(len(self.real_img_inds), len(self.real_img_inds) + self.synth_data_count))
@@ -205,9 +222,9 @@ def load_data(data_root, dataset, phase, batch_size, synth_data, synth_root, dat
 
     # Pass in synthetic data if specified, only during train
     if phase == 'train' and synth_data:
-        set_ = LT_Dataset(data_root, txt, phase, transform, synth_data, synth_root)
+        set_ = LT_Dataset(data_root, txt, phase, transform, synth_data, synth_root, data_subset)
     else: 
-        set_ = LT_Dataset(data_root, txt, phase, transform)
+        set_ = LT_Dataset(data_root, txt, phase, transform, data_subset=data_subset)
     print(len(set_))
 
     if phase == 'test' and test_open:

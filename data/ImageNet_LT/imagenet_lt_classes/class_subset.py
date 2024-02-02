@@ -68,19 +68,19 @@ out_files = [
     "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_val_30.txt",
     "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_test_30.txt" 
     ]
-for i in range(len(data_files)):
-    output_str = ""
-    file = data_files[i]
-    out_file = out_files[i]
-    with open(file) as data:
-        # if the line contains an image of a class we want, write that line to our new file 
-        for line in data:
-            class_label = int(line.split()[1])
-            if class_label in class_set:
-                output_str += line
+# for i in range(len(data_files)):
+#     output_str = ""
+#     file = data_files[i]
+#     out_file = out_files[i]
+#     with open(file) as data:
+#         # if the line contains an image of a class we want, write that line to our new file 
+#         for line in data:
+#             class_label = int(line.split()[1])
+#             if class_label in class_set:
+#                 output_str += line
 
-    with open(out_file, "w") as outuput_file:
-        outuput_file.write(output_str)
+#     with open(out_file, "w") as outuput_file:
+#         outuput_file.write(output_str)
 
 # move generated images of these classes 
 source_dirs = [
@@ -99,5 +99,5 @@ for i in range(len(source_dirs)):
     all_imgs = listdir(source_dir)
     for img in all_imgs:
         label = int(img.split("_")[0])
-        if label in class_set:
-            shutil.copy(f"{source_dir}/{img}", f"{dest_dir}/{img}")
+        # if label in class_set:
+        #     shutil.copy(f"{source_dir}/{img}", f"{dest_dir}/{img}")
