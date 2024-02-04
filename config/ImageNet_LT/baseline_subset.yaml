@@ -13,13 +13,13 @@ networks:
   classifier:
     def_file: ./models/DotProductClassifier.py
     optim_params: {lr: 0.2, momentum: 0.9, weight_decay: 0.0005}
-    params: {dataset: ImageNet_LT, feat_dim: 512, log_dir: ./logs/ImageNet_LT_30subset/models/resnext18_no_synth,
+    params: {dataset: ImageNet_LT, feat_dim: 512, log_dir: ./logs/ImageNet_LT30subset/models/resnext18_no_synth,
       num_classes: 30, stage1_weights: false}
   feat_model:
     def_file: ./models/ResNext18Feature.py
     fix: false
     optim_params: {lr: 0.2, momentum: 0.9, weight_decay: 0.0005}
-    params: {dataset: ImageNet_LT, dropout: null, log_dir: ./logs/ImageNet_LT_30subset/models/resnext18_no_synth,
+    params: {dataset: ImageNet_LT, dropout: null, log_dir: ./logs/ImageNet_LT30subset/models/resnext18_no_synth,
       stage1_weights: false, use_fc: false, use_selfatt: false}
 shuffle: false
 training_opt:
@@ -35,11 +35,11 @@ training_opt:
   # 2048 # ResNext50 
   log_dir: ./logs/ImageNet_LT_30subset/models/resnext18_no_synth
   log_root: /logs/ImageNet_LT_30subset
-  num_classes: 30
+  num_classes: 30 
   num_epochs: 150
   num_workers: 4 
   open_threshold: 0.1
   sampler: null
   scheduler_params: {gamma: 0.1, step_size: 30}
-  stage: resnext18_rand_img_cond
+  stage: resnext18_rand_no_synth
   sub_dir: models
