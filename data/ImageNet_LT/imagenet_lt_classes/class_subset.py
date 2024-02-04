@@ -3,32 +3,32 @@ from os import listdir
 import shutil
 
 # class labels for the classes wanted 
-# classes = [
-#     # 10 few classes
-#     # first 4 are items or structures/scenes (includes hard cases like "iron, 606")
-#     # grand piano, iron, pier, "cinema, movie theater, movie theatre, movie house, picture palace"
-#     579, 606, 718, 498, 
-#     # next 3 are animals: pufferfish, "banded gecko", robin, 
-#     397, 38, 15,
-#     # last 3 are: fur coat, website, carbonara
-#     568, 916, 959,
+classes = [
+    # 10 few classes
+    # first 4 are items or structures/scenes (includes hard cases like "iron, 606")
+    # grand piano, iron, pier, "cinema, movie theater, movie theatre, movie house, picture palace"
+    579, 606, 718, 498, 
+    # next 3 are animals: pufferfish, "banded gecko", robin, 
+    397, 38, 15,
+    # last 3 are: fur coat, website, carbonara
+    568, 916, 959,
 
-#     # 10 median classes
-#     # first 4 are animals: hippo, marmoset, walking stick, dingo
-#     344, 377, 313, 273, 
-#     # next 3: quilt, park bench, "sunscreen, sunblock, sun blocker"
-#     750, 703, 838,
-#     # last 3: ski, scuba diver, "ballplayer, baseball player"
-#     795, 983, 981,
+    # 10 median classes
+    # first 4 are animals: hippo, marmoset, walking stick, dingo
+    344, 377, 313, 273, 
+    # next 3: quilt, park bench, "sunscreen, sunblock, sun blocker"
+    750, 703, 838,
+    # last 3: ski, scuba diver, "ballplayer, baseball player"
+    795, 983, 981,
 
-#     # 10 many classes
-#     # first 3 are animals: "green snake, grass snake", sea anemone, llama
-#     55, 108, 355,
-#     # next 3 (items or structures/scenes): "breakwater, groin, groyne, mole, bulwark, seawall, jetty", cello, "drilling platform, offshore rig"  
-#     460, 486, 540,
-#     # last 4 are food or clothes: cowboy hat, gown, running shoe, burrito
-#     515, 578, 770, 965
-# ]
+    # 10 many classes
+    # first 3 are animals: "green snake, grass snake", sea anemone, llama
+    55, 108, 355,
+    # next 3 (items or structures/scenes): "breakwater, groin, groyne, mole, bulwark, seawall, jetty", cello, "drilling platform, offshore rig"  
+    460, 486, 540,
+    # last 4 are food or clothes: cowboy hat, gown, running shoe, burrito
+    515, 578, 770, 965
+]
 
 # 90 class subset: ~24 hour resnext18 train time
 # classes = [
@@ -94,7 +94,7 @@ destination_dirs = [
     "/mnt/zhang-nas/jiahuic/synth_LT_data/ImageNetLT/rand_img_cond_30",
     "/mnt/zhang-nas/jiahuic/synth_LT_data/ImageNetLT/cutmix_30", 
     "/mnt/zhang-nas/jiahuic/synth_LT_data/ImageNetLT/mixup_30",
-    "/mnt/zhang-nas/jiahuic/synth_LT_data/ImageNetLT/dropout_90",
+    "/mnt/zhang-nas/jiahuic/synth_LT_data/ImageNetLT/dropout_30",
 ]
 for i in range(len(source_dirs)):
     source_dir = source_dirs[i]
