@@ -1,19 +1,24 @@
 import shutil
 import os
 
-# for each of the subsets' val and test txt files,
+# for each of the val and test txt files,
 # move all these images into their own directories 
+# subset files, not enough images (FID needs >50k)
+# txt_files = [
+#     "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_test_30.txt", 
+#     "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_val_30.txt",
+#     "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_test_90.txt",
+#     "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_val_90.txt"
+#             ]
 txt_files = [
-    "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_test_30.txt", 
-    "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_val_30.txt",
-    "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_test_90.txt",
-    "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_val_90.txt"
-            ]
+    # "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_val.txt",
+    "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_test.txt"
+]
 data_root = '/mnt/zhang-nas/tensorflow_datasets/downloads/manual/imagenet2012'
 new_dirs_root = "/mnt/zhang-nas/jiahuic/ImageNetLT_subset_val_test"
 
 for txt_file in txt_files:
-    name = txt_file.split("/")[-1].strip(".txt")
+    name = txt_file.split("/")[-1].strip("txt").strip(".")
     with open(txt_file) as img_file:
         for line in img_file:
             if "test" in name:
@@ -29,4 +34,4 @@ for txt_file in txt_files:
             if not os.path.exists(dest_dir):
                 os.makedirs(dest_dir)
             # copy image to corresponding subdir 
-            shutil.copy(img_path, f"{dest_dir}/{img_path.split('/')[-1]}")
+            shutil.copy(img_path, f"{dest_dir}/{img_path.split('/')[-1].strip('.JPEG')}.jpg")
