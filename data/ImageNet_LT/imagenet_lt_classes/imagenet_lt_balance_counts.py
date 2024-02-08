@@ -9,7 +9,7 @@ with open("imagenet1000_class_labels.txt") as data:
     
 # count how many of each class we have in ImageNetLT train set 
 class_counts = {}
-with open("/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_train.txt") as training_data:
+with open("/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_train_30.txt") as training_data:
     for line in training_data:
         class_label = int(line.split()[1])
         if class_label in class_counts:
@@ -27,7 +27,7 @@ output_str = ""
 # first_273_count = 0
 # after_273_count = 0
 sanity = 0
-for label in class_labels:
+for label in class_counts:
     int_label = int(label)
     txt_label = class_labels[label]
     needed_count = 1280 - class_counts[int_label]
@@ -39,12 +39,12 @@ for label in class_labels:
     # else:
     #     after_273_count += needed_count
 
-# with open("imagenet_lt_balance_counts.txt", "w") as outuput_file:
+# with open("imagenet_lt_balance_counts_30subset.txt", "w") as outuput_file:
 #     outuput_file.write(output_str)
 
 # 1,164,154 total images needed RIPPPP
-# print(total_images_needed)
-# print(sanity == total_images_needed)
+print(total_images_needed)
+print(sanity == total_images_needed)
 # print(f"Classes 0-273 need: {first_273_count}")
 # print(f"Classes 238-999 need: {after_273_count}")
     
