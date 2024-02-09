@@ -1,6 +1,10 @@
 import ast
 from os import listdir, remove, path
 
+####### finds (and creates file) of:
+# <class label (int)> <text label> <count of images to generate to get to 1280> 
+# given a training file
+
 # dictionary with label (int) : class text (string)
 with open("imagenet1000_class_labels.txt") as data:
     class_labels = ast.literal_eval(data.read())

@@ -1,6 +1,7 @@
 import ast
 import numpy as np
 
+####### Finds which classes are few, median, and many
 # 136 classes with < 20 images [FEW]
 # 479 classes with between 20-100 images [MEDIAN]
 # 385 classes with > 100 images [MANY]
@@ -57,8 +58,8 @@ for i in range(len(categories)):
     for label in category:
         line = f"{label} \"{class_labels[label]}\" {class_folders[label]} {class_counts[label]}\n"
         output_str += line
-    with open(f"imagenet_lt_{name}_train.txt", "w") as outuput_file:
-        outuput_file.write(output_str)
+    # with open(f"imagenet_lt_{name}_train.txt", "w") as outuput_file:
+    #     outuput_file.write(output_str)
 
 # 136 classes with < 20 images [FEW]
 # 479 classes with between 20-100 images [MEDIAN]
