@@ -1,6 +1,5 @@
 import ast
 from os import listdir, remove, path
-import shutil
 
 # dictionary with label (int) : class text (string)
 with open("imagenet1000_class_labels.txt") as data:
@@ -9,7 +8,7 @@ with open("imagenet1000_class_labels.txt") as data:
     
 # count how many of each class we have in ImageNetLT train set 
 class_counts = {}
-with open("/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_train_30.txt") as training_data:
+with open("/datastor1/jiahuikchen/LT-classification/data/ImageNet_LT/ImageNet_LT_train_30_many.txt") as training_data:
     for line in training_data:
         class_label = int(line.split()[1])
         if class_label in class_counts:
@@ -39,8 +38,8 @@ for label in class_counts:
     # else:
     #     after_273_count += needed_count
 
-# with open("imagenet_lt_balance_counts_30subset.txt", "w") as outuput_file:
-#     outuput_file.write(output_str)
+with open("imagenet_lt_balance_counts_30_many.txt", "w") as outuput_file:
+    outuput_file.write(output_str)
 
 # 1,164,154 total images needed RIPPPP
 print(total_images_needed)

@@ -96,8 +96,8 @@ for i in range(len(data_files)):
             if class_label in class_set:
                 output_str += line
 
-    with open(out_file, "w") as outuput_file:
-        outuput_file.write(output_str)
+    # with open(out_file, "w") as outuput_file:
+    #     outuput_file.write(output_str)
 
 # move generated images of these classes 
 source_dirs = [
@@ -118,5 +118,5 @@ for i in range(len(source_dirs)):
     all_imgs = listdir(source_dir)
     for img in all_imgs:
         label = int(img.split("_")[0])
-        if label in class_set:
-            shutil.copy(f"{source_dir}/{img}", f"{dest_dir}/{img}")
+        # if label in class_set:
+        #     shutil.copy(f"{source_dir}/{img}", f"{dest_dir}/{img}")
