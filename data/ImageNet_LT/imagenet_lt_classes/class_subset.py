@@ -3,32 +3,46 @@ from os import listdir
 import shutil
 
 # class labels for the classes wanted 
+# 30 many-classes
 classes = [
-    # 10 few classes
-    # first 4 are items or structures/scenes (includes hard cases like "iron, 606")
-    # grand piano, iron, pier, "cinema, movie theater, movie theatre, movie house, picture palace"
-    579, 606, 718, 498, 
-    # next 3 are animals: pufferfish, "banded gecko", robin, 
-    397, 38, 15,
-    # last 3 are: fur coat, website, carbonara
-    568, 916, 959,
+    # first 10 are animals
+    50, 107, 67, 148, 207, 244, 367, 345, 302, 333, 
 
-    # 10 median classes
-    # first 4 are animals: hippo, marmoset, walking stick, dingo
-    344, 377, 313, 273, 
-    # next 3: quilt, park bench, "sunscreen, sunblock, sun blocker"
-    750, 703, 838,
-    # last 3: ski, scuba diver, "ballplayer, baseball player"
-    795, 983, 981,
+    # next 10 are objects, buildings/places, or vehicles
+    414, 417, 441, 519, 466, 509, 555, 449, 548, 532,
 
-    # 10 many classes
-    # first 3 are animals: "green snake, grass snake", sea anemone, llama
-    55, 108, 355,
-    # next 3 (items or structures/scenes): "breakwater, groin, groyne, mole, bulwark, seawall, jetty", cello, "drilling platform, offshore rig"  
-    460, 486, 540,
-    # last 4 are food or clothes: cowboy hat, gown, running shoe, burrito
-    515, 578, 770, 965
+    # last 10 clothes or food
+    578, 608, 652, 679, 934, 987, 898, 924, 929, 658
 ]
+
+
+# 30 class subset: 10-12 hour resnext18 train time 
+# classes = [
+#     # 10 few classes
+#     # first 4 are items or structures/scenes (includes hard cases like "iron, 606")
+#     # grand piano, iron, pier, "cinema, movie theater, movie theatre, movie house, picture palace"
+#     579, 606, 718, 498, 
+#     # next 3 are animals: pufferfish, "banded gecko", robin, 
+#     397, 38, 15,
+#     # last 3 are: fur coat, website, carbonara
+#     568, 916, 959,
+
+#     # 10 median classes
+#     # first 4 are animals: hippo, marmoset, walking stick, dingo
+#     344, 377, 313, 273, 
+#     # next 3: quilt, park bench, "sunscreen, sunblock, sun blocker"
+#     750, 703, 838,
+#     # last 3: ski, scuba diver, "ballplayer, baseball player"
+#     795, 983, 981,
+
+#     # 10 many classes
+#     # first 3 are animals: "green snake, grass snake", sea anemone, llama
+#     55, 108, 355,
+#     # next 3 (items or structures/scenes): "breakwater, groin, groyne, mole, bulwark, seawall, jetty", cello, "drilling platform, offshore rig"  
+#     460, 486, 540,
+#     # last 4 are food or clothes: cowboy hat, gown, running shoe, burrito
+#     515, 578, 770, 965
+# ]
 
 # 90 class subset: ~24 hour resnext18 train time
 # classes = [
@@ -59,42 +73,44 @@ classes = [
 class_set = set(classes)
 
 # generate train, val, and test txt files for given classes
+# A40: //datastor1/jiahuikchen/
+# MIDI: /datastor1/jiahuikchen/tmix 
 data_files = [
-    "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_train.txt",
-    "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_val.txt",
-    "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_test.txt"
+    "/datastor1/jiahuikchen/LT-classification/data/ImageNet_LT/ImageNet_LT_train.txt",
+    "/datastor1/jiahuikchen/LT-classification/data/ImageNet_LT/ImageNet_LT_val.txt",
+    "/datastor1/jiahuikchen/LT-classification/data/ImageNet_LT/ImageNet_LT_test.txt"
     ]
 out_files = [
-    "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_train_30.txt",
-    "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_val_30.txt",
-    "/mnt/zhang-nas/jiahuic/LT-classification/data/ImageNet_LT/ImageNet_LT_test_30.txt" 
+    "/datastor1/jiahuikchen/LT-classification/data/ImageNet_LT/ImageNet_LT_train_30_many.txt",
+    "/datastor1/jiahuikchen/LT-classification/data/ImageNet_LT/ImageNet_LT_val_30_many.txt",
+    "/datastor1/jiahuikchen/LT-classification/data/ImageNet_LT/ImageNet_LT_test_30_many.txt" 
     ]
-# for i in range(len(data_files)):
-#     output_str = ""
-#     file = data_files[i]
-#     out_file = out_files[i]
-#     with open(file) as data:
-#         # if the line contains an image of a class we want, write that line to our new file 
-#         for line in data:
-#             class_label = int(line.split()[1])
-#             if class_label in class_set:
-#                 output_str += line
+for i in range(len(data_files)):
+    output_str = ""
+    file = data_files[i]
+    out_file = out_files[i]
+    with open(file) as data:
+        # if the line contains an image of a class we want, write that line to our new file 
+        for line in data:
+            class_label = int(line.split()[1])
+            if class_label in class_set:
+                output_str += line
 
-#     with open(out_file, "w") as outuput_file:
-#         outuput_file.write(output_str)
+    with open(out_file, "w") as outuput_file:
+        outuput_file.write(output_str)
 
 # move generated images of these classes 
 source_dirs = [
-    "/mnt/zhang-nas/jiahuic/synth_LT_data/ImageNetLT/rand_img_cond",
-    "/mnt/zhang-nas/jiahuic/synth_LT_data/ImageNetLT/cutmix", 
-    "/mnt/zhang-nas/jiahuic/synth_LT_data/ImageNetLT/mixup",
-    "/mnt/zhang-nas/jiahuic/synth_LT_data/ImageNetLT/dropout",
+    "/datastor1/jiahuikchen/synth_ImageNet/rand_img_cond",
+    "/datastor1/jiahuikchen/synth_ImageNet/cutmix", 
+    "/datastor1/jiahuikchen/synth_ImageNet/mixup",
+    "/datastor1/jiahuikchen/synth_ImageNet/dropout",
 ]  
 destination_dirs = [
-    "/mnt/zhang-nas/jiahuic/synth_LT_data/ImageNetLT/rand_img_cond_30",
-    "/mnt/zhang-nas/jiahuic/synth_LT_data/ImageNetLT/cutmix_30", 
-    "/mnt/zhang-nas/jiahuic/synth_LT_data/ImageNetLT/mixup_30",
-    "/mnt/zhang-nas/jiahuic/synth_LT_data/ImageNetLT/dropout_30",
+    "/datastor1/jiahuikchen/synth_ImageNet/rand_img_cond_30_many",
+    "/datastor1/jiahuikchen/synth_ImageNet/cutmix_30_many", 
+    "/datastor1/jiahuikchen/synth_ImageNet/mixup_30_many",
+    "/datastor1/jiahuikchen/synth_ImageNet/dropout_30_many",
 ]
 for i in range(len(source_dirs)):
     source_dir = source_dirs[i]
@@ -102,5 +118,5 @@ for i in range(len(source_dirs)):
     all_imgs = listdir(source_dir)
     for img in all_imgs:
         label = int(img.split("_")[0])
-        # if label in class_set:
-        #     shutil.copy(f"{source_dir}/{img}", f"{dest_dir}/{img}")
+        if label in class_set:
+            shutil.copy(f"{source_dir}/{img}", f"{dest_dir}/{img}")

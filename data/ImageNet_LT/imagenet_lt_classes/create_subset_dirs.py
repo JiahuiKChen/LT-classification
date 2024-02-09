@@ -34,4 +34,4 @@ for txt_file in txt_files:
             if not os.path.exists(dest_dir):
                 os.makedirs(dest_dir)
             # copy image to corresponding subdir 
-            shutil.copy(img_path, f"{dest_dir}/{img_path.split('/')[-1].strip('.JPEG')}.jpg")
+            # shutil.copy(img_path, f"{dest_dir}/{img_path.split('/')[-1].strip('.JPEG')}.jpg")

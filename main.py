@@ -81,7 +81,7 @@ config = update(config, args)
 wandb.init(
     project="ImageNet-LT",
     config=config,
-    name="embed_mixup",
+    name="embed_cutmix",
     group="30subset_resnext18"
 )
 
