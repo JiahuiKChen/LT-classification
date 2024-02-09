@@ -26,7 +26,7 @@ import wandb
 # only ImageNet is up to date
 # 'ImageNet': '/mnt/zhang-nas/tensorflow_datasets/downloads/manual/imagenet2012', # MIDI ImageNet 
 # 'ImageNet': '/datastor1/imagenet2012_manual', # A40 ImageNet
-data_root = {'ImageNet': '/mnt/zhang-nas/tensorflow_datasets/downloads/manual/imagenet2012', # MIDI ImageNet 
+data_root = {'ImageNet': '/datastor1/imagenet2012_manual', # A40 ImageNet
              'Places': '/datasets01_101/Places365/041019',
              'iNaturalist18': '/checkpoint/bykang/iNaturalist18'}
 
@@ -81,8 +81,8 @@ config = update(config, args)
 wandb.init(
     project="ImageNet-LT",
     config=config,
-    name="dropout",
-    group="90subset_resnext18"
+    name="embed_mixup",
+    group="30subset_resnext18"
 )
 
 test_mode = args.test
