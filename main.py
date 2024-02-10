@@ -81,7 +81,7 @@ config = update(config, args)
 wandb.init(
     project="ImageNet-LT",
     config=config,
-    name="baseline",
+    name="rand_img_cond",
     group="30_many_resnext18"
 )
 
