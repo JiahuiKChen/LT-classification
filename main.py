@@ -81,8 +81,8 @@ config = update(config, args)
 wandb.init(
     project="ImageNet-LT",
     config=config,
-    name="rand_img_cond",
-    group="30_many_resnext18"
+    name="cutmix",
+    group="30subset_resnext18_BS"
 )
 
 test_mode = args.test
@@ -201,4 +201,3 @@ else:
         training_model.output_logits(openset=test_open)
 
 wandb.finish() 
-print('ALL COMPLETED.')

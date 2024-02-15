@@ -4,9 +4,9 @@ import json
 # class label: count of images
 # where the class label is [0, num_classes] (for subsets this is what the labels are)
 expected_class_num = 30
-train_file = "/datastor1/jiahuikchen/LT-classification/data/ImageNet_LT/ImageNet_LT_train_30_many.txt"
+train_file = "/datastor1/jiahuikchen/LT-classification/data/ImageNet_LT/ImageNet_LT_train_30.txt"
 output_dir = "/datastor1/jiahuikchen/LT-classification/cls_freq"
-json_name = "ImageNet_LT_train_30_many.json"
+json_name = "ImageNet_LT_train_30.json"
 
 class_counts = [0] * expected_class_num
 # used to map classes to [0, num_classes]
