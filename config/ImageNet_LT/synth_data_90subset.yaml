@@ -1,8 +1,8 @@
 coslr: true
 criterions:
   PerformanceLoss:
-    def_file: ./loss/SoftmaxLoss.py
-    loss_params: {}
+    def_file: ./loss/BalancedSoftmaxLoss.py
+    loss_params: {freq_path: ./cls_freq/ImageNet_LT_train_90.json}
     optim_params: null
     weight: 1.0
 endlr: 0.0

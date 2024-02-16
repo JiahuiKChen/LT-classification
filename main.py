@@ -81,8 +81,8 @@ config = update(config, args)
 wandb.init(
     project="ImageNet-LT",
     config=config,
-    name="baseline",
-    group="30subset_resnext18_BS"
+    name="dropout",
+    group="90subset_resnext18_BS"
 )
 
 test_mode = args.test
