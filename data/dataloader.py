@@ -123,6 +123,8 @@ class LT_Dataset(Dataset):
                 self.synth_data_count += 1
             # track indices of synthetic data 
             self.synth_img_inds = list(range(len(self.real_img_inds), len(self.real_img_inds) + self.synth_data_count))
+            # shuffle indices of synthetic data, so when it's accessed sequentially in HalfSynthHalfRealBatchSampler it's shuffled 
+            random.shuffle(self.synth_img_inds)
 
             if len(self.synth_img_inds) != self.synth_data_count:
                 raise ValueError("Synthetic indices don't match synthetic data count")

@@ -24,9 +24,9 @@ import wandb
 
 
 # only ImageNet is up to date
-# 'ImageNet': '/mnt/zhang-nas/tensorflow_datasets/downloads/manual/imagenet2012', # MIDI ImageNet 
+# 'ImageNet': '/data/tensorflow_datasets/downloads/manual/imagenet2012', # MIDI ImageNet 
 # 'ImageNet': '/datastor1/imagenet2012_manual', # A40 ImageNet
-data_root = {'ImageNet': '/datastor1/imagenet2012_manual', # A40 ImageNet
+data_root = {'ImageNet': '/data/tensorflow_datasets/downloads/manual/imagenet2012', # MIDI ImageNet 
              'Places': '/datasets01_101/Places365/041019',
              'iNaturalist18': '/checkpoint/bykang/iNaturalist18'}
 
@@ -79,10 +79,11 @@ with open(args.cfg) as f:
 config = update(config, args)
 
 wandb.init(
+    mode="disabled",
     project="ImageNet-LT",
     config=config,
-    name="dropout",
-    group="90subset_resnext18_BS"
+    name="rand_img_train_SHUFF_nas_synth_train",
+    group="30subset_resnext18"
 )
 
 test_mode = args.test
