@@ -79,7 +79,7 @@ with open(args.cfg) as f:
 config = update(config, args)
 
 wandb.init(
-    mode="disabled",
+    # mode="disabled",
     project="ImageNet-LT",
     config=config,
     name="rand_img_train_SHUFF_nas_synth_train",
