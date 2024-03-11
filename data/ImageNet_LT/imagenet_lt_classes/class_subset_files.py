@@ -2,6 +2,7 @@ import numpy as np
 from os import listdir
 import shutil
 
+CLASS_SUBSET_NAME = "30_many"
 # class labels for the classes wanted 
 # 30 many-classes
 classes = [
@@ -14,7 +15,6 @@ classes = [
     # last 10 clothes or food
     578, 608, 652, 679, 934, 987, 898, 924, 929, 658
 ]
-
 
 # 30 class subset: 10-12 hour resnext18 train time 
 # classes = [
@@ -81,9 +81,9 @@ data_files = [
     "/datastor1/jiahuikchen/LT-classification/data/ImageNet_LT/ImageNet_LT_test.txt"
     ]
 out_files = [
-    "/datastor1/jiahuikchen/LT-classification/data/ImageNet_LT/ImageNet_LT_train_30_many.txt",
-    "/datastor1/jiahuikchen/LT-classification/data/ImageNet_LT/ImageNet_LT_val_30_many.txt",
-    "/datastor1/jiahuikchen/LT-classification/data/ImageNet_LT/ImageNet_LT_test_30_many.txt" 
+    f"/datastor1/jiahuikchen/LT-classification/data/ImageNet_LT/ImageNet_LT_train_{CLASS_SUBSET_NAME}.txt",
+    f"/datastor1/jiahuikchen/LT-classification/data/ImageNet_LT/ImageNet_LT_val_{CLASS_SUBSET_NAME}.txt",
+    f"/datastor1/jiahuikchen/LT-classification/data/ImageNet_LT/ImageNet_LT_test_{CLASS_SUBSET_NAME}.txt" 
     ]
 for i in range(len(data_files)):
     output_str = ""
