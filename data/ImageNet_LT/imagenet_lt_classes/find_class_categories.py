@@ -2,7 +2,7 @@ import ast
 import numpy as np
 
 ####### Finds which classes are few, median, and many
-# 136 classes with < 20 images [FEW]
+# 136 classes with < 20 images [FEW] (min is 5)
 # 479 classes with between 20-100 images [MEDIAN]
 # 385 classes with > 100 images [MANY]
 
