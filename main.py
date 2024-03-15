@@ -82,8 +82,8 @@ wandb.init(
     # mode="disabled",
     project="ImageNet-LT",
     config=config,
-    name="baseline",
-    group="30_many_to_few_resnext18"
+    name="embed_cutmix",
+    group="30_many_to_median_resnext18"
 )
 
 test_mode = args.test
