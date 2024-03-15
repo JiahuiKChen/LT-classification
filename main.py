@@ -82,8 +82,8 @@ wandb.init(
     # mode="disabled",
     project="ImageNet-LT",
     config=config,
-    name="rand_img_cond",
-    group="30_many_to_median_only_resnext18"
+    name="embed_mixup",
+    group="30_many_to_few_REAL_resnext18"
 )
 
 test_mode = args.test

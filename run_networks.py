@@ -64,12 +64,12 @@ class model ():
                 # so we must do the number of steps needed to use all synthetic data 
                 # which is number of synthetic images / half the batch size 
                 self.training_data_num = self.data['train'].dataset.synth_data_count
-                self.epoch_steps = int(self.training_data_num  \
-                                    / (self.training_opt['batch_size'] // 2))
+                self.epoch_steps = max(1, int(self.training_data_num  \
+                                    / (self.training_opt['batch_size'] // 2)))
             else:
                 self.training_data_num = len(self.data['train'].dataset)
-                self.epoch_steps = int(self.training_data_num  \
-                                    / self.training_opt['batch_size'])
+                self.epoch_steps = max(1, int(self.training_data_num  \
+                                    / self.training_opt['batch_size']))
 
             # Initialize model optimizer and scheduler
             print('Initializing model optimizer.')
