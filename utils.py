@@ -71,7 +71,8 @@ def shot_acc (preds, labels, train_data, many_shot_thr=100, low_shot_thr=20, acc
     if isinstance(train_data, np.ndarray):
         training_labels = np.array(train_data).astype(int)
     else:
-        training_labels = np.array(train_data.dataset.labels).astype(int)
+        # use only the labels of real training data, as all labels include balanced synthetic counts
+        training_labels = np.array(train_data.dataset.real_labels).astype(int)
 
     if isinstance(preds, torch.Tensor):
         preds = preds.detach().cpu().numpy()

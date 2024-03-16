@@ -79,11 +79,11 @@ with open(args.cfg) as f:
 config = update(config, args)
 
 wandb.init(
-    # mode="disabled",
+    mode="disabled",
     project="ImageNet-LT",
     config=config,
-    name="embed_mixup",
-    group="30_many_to_few_REAL_resnext18"
+    name="cutmix",
+    group="30subset_resnext18_BS"
 )
 
 test_mode = args.test

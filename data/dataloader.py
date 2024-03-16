@@ -73,7 +73,9 @@ class LT_Dataset(Dataset):
         self.img_path = []
         self.labels = []
         self.transform = transform
-        # these are only used during training with synthetic data 
+        # used to calculate many/median/few class accuracies when synthetic data is used 
+        self.real_labels = []
+        # only used during training with synthetic data 
         self.real_img_inds = [] # needed to repeatedly randomly sample real images 
         self.synth_img_inds = []
         self.synth_data_count = 0
@@ -81,7 +83,7 @@ class LT_Dataset(Dataset):
         class_map = {}
         class_count = 0
 
-        # loading real data
+        # loading real data 
         with open(txt) as f:
             for line in f:
                 if phase == 'test':
@@ -99,8 +101,10 @@ class LT_Dataset(Dataset):
                         class_map[label] = class_count
                         class_count += 1 
                     self.labels.append(class_map[label]) 
+                    self.real_labels.append(class_map[label])
                 else:
                     self.labels.append(label)
+                    self.real_labels.append(label)
 
                 # if synthetic data is used, track indices of real data
                 if phase == 'train' and synthetic:
