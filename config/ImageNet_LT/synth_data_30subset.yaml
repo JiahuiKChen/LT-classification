@@ -2,7 +2,7 @@ coslr: true
 criterions:
   PerformanceLoss:
     def_file: ./loss/BalancedSoftmaxLoss.py
-    loss_params: {freq_path: ./cls_freq/ImageNet_LT_train_30_many_to_median.json}
+    loss_params: {freq_path: ./cls_freq/ImageNet_LT_train_30.json}
     optim_params: null 
     weight: 1.0 
 endlr: 0.0
@@ -13,33 +13,33 @@ networks:
   classifier:
     def_file: ./models/DotProductClassifier.py
     optim_params: {lr: 0.2, momentum: 0.9, weight_decay: 0.0005}
-    params: {dataset: ImageNet_LT, feat_dim: 512, log_dir: ./logs/ImageNet_LT_30_many_to_median/models/resnext18_cutmix,
+    params: {dataset: ImageNet_LT, feat_dim: 512, log_dir: ./logs/ImageNet_LT_30_BS/models/resnext18_embed_cutmix_dropout,
       num_classes: 30, stage1_weights: false}
   feat_model:
     def_file: ./models/ResNext18Feature.py
     fix: false
     optim_params: {lr: 0.2, momentum: 0.9, weight_decay: 0.0005}
-    params: {dataset: ImageNet_LT, dropout: null, log_dir: ./logs/ImageNet_LT_30_many_to_median/models/resnext18_cutmix,
+    params: {dataset: ImageNet_LT, dropout: null, log_dir: ./logs/ImageNet_LT_30_BS/models/resnext18_embed_cutmix_dropout,
       stage1_weights: false, use_fc: false, use_selfatt: false}
 shuffle: false
 training_opt:
   backbone: resnext18
   batch_size: 512
   dataset: ImageNet_LT
-  subset: 30_many_to_median 
+  subset: 30 
   synth_data: true
   # synth_root: /data/jiahuic/synth_LT_data/ImageNetLT/dropout_30  # NAS 
-  synth_root: /datastor1/jiahuikchen/synth_ImageNet/30_many_to_median/cutmix # datastor1
+  synth_root: /datastor1/jiahuikchen/synth_ImageNet/embed_cutmix_30_dropout # datastor1
   display_step: 10 
   feature_dim: 512 # ResNext18 
   # 2048 # ResNext50 
-  log_dir: ./logs/ImageNet_LT_30_many_to_median/models/resnext18_cutmix
-  log_root: /logs/ImageNet_LT_30_many_to_median
+  log_dir: ./logs/ImageNet_LT_30_BS/models/resnext18_embed_cutmix_dropout
+  log_root: /logs/ImageNet_LT_30_BS
   num_classes: 30 
   num_epochs: 150
   num_workers: 4 
   open_threshold: 0.1
   sampler: null
   scheduler_params: {gamma: 0.1, step_size: 30}
-  stage: resnext18_cutmix
+  stage: resnext18_embed_cutmix_dropout
   sub_dir: models
