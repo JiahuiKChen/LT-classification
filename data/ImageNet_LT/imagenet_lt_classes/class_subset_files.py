@@ -16,7 +16,7 @@ classes = [
     578, 608, 652, 679, 934, 987, 898, 924, 929, 658
 ]
 
-# 30 class subset: 10-12 hour resnext18 train time 
+# 30 class subset: 10-12 hour resnext18 train time (subset of 90) 
 # classes = [
 #     # 10 few classes
 #     # first 4 are items or structures/scenes (includes hard cases like "iron, 606")

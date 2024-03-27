@@ -3,10 +3,10 @@ import json
 # given a training data txt file, write a JSON dict of:
 # class label: count of images
 # where the class label is [0, num_classes] (for subsets this is what the labels are)
-expected_class_num = 30
-train_file = "/datastor1/jiahuikchen/LT-classification/data/ImageNet_LT/ImageNet_LT_train_30_many_to_few.txt"
+expected_class_num = 1000
+train_file = "/datastor1/jiahuikchen/LT-classification/data/ImageNet_LT/ImageNet_LT_train.txt"
 output_dir = "/datastor1/jiahuikchen/LT-classification/cls_freq"
-json_name = "ImageNet_LT_train_30_many_to_few.json"
+json_name = "ImageNet_LT_train.json"
 
 class_counts = [0] * expected_class_num
 # used to map classes to [0, num_classes]
