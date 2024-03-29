@@ -82,7 +82,7 @@ wandb.init(
     # mode="disabled",
     project="ImageNet-LT",
     config=config,
-    name="cutmix_dropout_fix",
+    name="embed_cutmix_dropout_fix",
     group="90subset_resnext18_BS"
 )
 

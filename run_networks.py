@@ -48,9 +48,14 @@ class model ():
         # Initialize model
         self.init_models()
 
-        # Load pre-trained model parameters
+        # Load pre-trained model parameters for EVAL
         if 'model_dir' in self.config and self.config['model_dir'] is not None:
             self.load_model(self.config['model_dir'])
+
+        # Load checkpoint of model to continue training
+        if 'model_checkpoint' in self.config and self.config['model_checkpoint'] is not None:
+            # Value of 'model_checkpoint' should be: <path>/latest_model_checkpoint.pth
+            self.load_checkpoint(self.config['model_checkpoint'])
 
         # Under training mode, initialize training steps, optimizers, schedulers, criterions, and centroids
         if not self.test_mode:
@@ -98,7 +103,7 @@ class model ():
                     self.networks['classifier'].update(cfeats)
             self.log_file = None
         
-    def init_models(self, optimizer=True):
+    def init_models(self):
         networks_defs = self.config['networks']
         self.networks = {}
         self.model_optim_params_list = []
@@ -186,6 +191,7 @@ class model ():
 
             # During training, calculate centroids if needed to 
             if phase != 'test':
+                # this is never used for me (no "centriids" or "FeatureLoss" in criterions)
                 if centroids and 'FeatureLoss' in self.criterions.keys():
                     self.centroids = self.criterions['FeatureLoss'].centroids.data
                     torch.cat([self.centroids] * self.num_gpus)
@@ -673,6 +679,8 @@ class model ():
             weights = {k: weights[k] for k in weights if k in model.state_dict()}
             model.load_state_dict(weights)
 
+    # NOT LOADING FOR CONTINUING TRAINING, ONLY WORKS FOR EVAL/VAL LOADING
+    # use load_checkpoint() for training loading
     def load_model(self, model_dir=None):
         model_dir = self.training_opt['log_dir'] if model_dir is None else model_dir
         if not model_dir.endswith('.pth'):
@@ -699,8 +707,21 @@ class model ():
             x.update(weights)
             model.load_state_dict(x)
     
+    def load_checkpoint(self, model_file):
+        print(f'Loading model checkpoint from {model_file}')
+        checkpoint = torch.load(model_file)
+        model_checkpoints = checkpoint['state_dict']
+
+        for key, model in self.networks.items():
+            weights = model_checkpoints[key]
+            weights = {k: weights[k] for k in weights if k in model.state_dict()}
+            x = model.state_dict()
+            x.update(weights)
+            model.load_state_dict(x)
+
     def save_latest(self, epoch):
         model_weights = {}
+        # checkpoint state dict!
         model_weights['feat_model'] = copy.deepcopy(self.networks['feat_model'].state_dict())
         model_weights['classifier'] = copy.deepcopy(self.networks['classifier'].state_dict())
 
