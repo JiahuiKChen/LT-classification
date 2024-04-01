@@ -52,11 +52,6 @@ class model ():
         if 'model_dir' in self.config and self.config['model_dir'] is not None:
             self.load_model(self.config['model_dir'])
 
-        # Load checkpoint of model to continue training
-        if 'model_checkpoint' in self.config and self.config['model_checkpoint'] is not None:
-            # Value of 'model_checkpoint' should be: <path>/latest_model_checkpoint.pth
-            self.load_checkpoint(self.config['model_checkpoint'])
-
         # Under training mode, initialize training steps, optimizers, schedulers, criterions, and centroids
         if not self.test_mode:
 
@@ -79,12 +74,18 @@ class model ():
             # Initialize model optimizer and scheduler
             print('Initializing model optimizer.')
             self.scheduler_params = self.training_opt['scheduler_params']
+            # these optimizers have 2 param groups for each of the networks
             self.model_optimizer, \
             self.model_optimizer_scheduler = self.init_optimizers(self.model_optim_params_list)
             self.init_criterions()
             if self.memory['init_centroids']:
                 self.criterions['FeatureLoss'].centroids.data = \
                     self.centroids_cal(self.data['train_plain'])
+                
+            # Load checkpoint of model and optimizers to continue training
+            if 'model_checkpoint' in self.config and self.config['model_checkpoint'] is not None:
+                # Value of 'model_checkpoint' should be: <path>/latest_model_checkpoint.pth
+                self.load_checkpoint(self.config['model_checkpoint'])
             
             # Set up log file
             self.log_file = os.path.join(self.training_opt['log_dir'], 'log.txt')
@@ -152,7 +153,8 @@ class model ():
 
             self.criterions[key] = source_import(def_file).create_loss(*loss_args).cuda()
             self.criterion_weights[key] = val['weight']
-          
+
+            # this is for the LOSS optimizer, not the model optmizer 
             if val['optim_params']:
                 print('Initializing criterion optimizer.')
                 optim_params = val['optim_params']
@@ -708,26 +710,29 @@ class model ():
             model.load_state_dict(x)
     
     def load_checkpoint(self, model_file):
-        print(f'Loading model checkpoint from {model_file}')
+        print(f'===> Loading model and optimizer checkpoint from {model_file}')
         checkpoint = torch.load(model_file)
         model_checkpoints = checkpoint['state_dict']
 
+        # load model weights
         for key, model in self.networks.items():
-            weights = model_checkpoints[key]
-            weights = {k: weights[k] for k in weights if k in model.state_dict()}
-            x = model.state_dict()
-            x.update(weights)
-            model.load_state_dict(x)
+            model_state_dict = model_checkpoints[key]
+            model.load_state_dict(model_state_dict)
+        # load optimizer and learning rate scheduler 
+        self.model_optimizer.load_state_dict(checkpoint['optimizer_state_dict'])     
+        self.model_optimizer_scheduler.load_state_dict(checkpoint['scheduler_state_dict'])   
 
     def save_latest(self, epoch):
         model_weights = {}
-        # checkpoint state dict!
+        # Model weights checkpoints
         model_weights['feat_model'] = copy.deepcopy(self.networks['feat_model'].state_dict())
         model_weights['classifier'] = copy.deepcopy(self.networks['classifier'].state_dict())
 
         model_states = {
             'epoch': epoch,
-            'state_dict': model_weights
+            'state_dict': model_weights,
+            'optimizer_state_dict': self.model_optimizer.state_dict(),
+            'scheduler_state_dict': self.model_optimizer_scheduler.state_dict()
         }
 
         model_dir = os.path.join(self.training_opt['log_dir'], 

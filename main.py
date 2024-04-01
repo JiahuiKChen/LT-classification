@@ -82,8 +82,9 @@ wandb.init(
     # mode="disabled",
     project="ImageNet-LT",
     config=config,
-    name="embed_cutmix_dropout_fix",
-    group="90subset_resnext18_BS"
+    name="checkpointing_resume_test",
+    group="30subset_resnext18_BS",
+    resume=True
 )
 
 test_mode = args.test

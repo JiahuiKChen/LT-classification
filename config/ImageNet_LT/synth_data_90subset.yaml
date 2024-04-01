@@ -9,18 +9,18 @@ endlr: 0.0
 last: false
 memory: {centroids: false, init_centroids: false}
 model_dir: null 
-model_checkpoint: /datastor1/jiahuikchen/LT-classification/logs/ImageNet_LT_90_BS/models/resnext18_embed_cutmix_dropout/latest_model_checkpoint.pth 
+# model_checkpoint: /datastor1/jiahuikchen/LT-classification/logs/ImageNet_LT_90_BS/models/resnext18_embed_cutmix_dropout_full/latest_model_checkpoint.pth 
 networks:
   classifier:
     def_file: ./models/DotProductClassifier.py
     optim_params: {lr: 0.2, momentum: 0.9, weight_decay: 0.0005}
-    params: {dataset: ImageNet_LT, feat_dim: 512, log_dir: ./logs/ImageNet_LT_90_BS/models/resnext18_embed_cutmix_dropout,
+    params: {dataset: ImageNet_LT, feat_dim: 512, log_dir: ./logs/ImageNet_LT_90_BS/models/resnext18_embed_cutmix_dropout_full,
       num_classes: 90, stage1_weights: false}
   feat_model:
     def_file: ./models/ResNext18Feature.py
     fix: false
     optim_params: {lr: 0.2, momentum: 0.9, weight_decay: 0.0005}
-    params: {dataset: ImageNet_LT, dropout: null, log_dir: ./logs/ImageNet_LT_90_BS/models/resnext18_embed_cutmix_dropout,
+    params: {dataset: ImageNet_LT, dropout: null, log_dir: ./logs/ImageNet_LT_90_BS/models/resnext18_embed_cutmix_dropout_full,
       stage1_weights: false, use_fc: false, use_selfatt: false}
 shuffle: false
 training_opt:
@@ -34,13 +34,13 @@ training_opt:
   display_step: 10
   feature_dim: 512 # ResNext18 
   # 2048 # ResNext50 
-  log_dir: ./logs/ImageNet_LT_90_BS/models/resnext18_embed_cutmix_dropout
+  log_dir: ./logs/ImageNet_LT_90_BS/models/resnext18_embed_cutmix_dropout_full
   log_root: /logs/ImageNet_LT_90_BS
   num_classes: 90 
-  num_epochs: 86 
+  num_epochs: 150 
   num_workers: 4 
   open_threshold: 0.1
   sampler: null
   scheduler_params: {gamma: 0.1, step_size: 30}
-  stage: resnext18_embed_cutmix_dropout
+  stage: resnext18_embed_cutmix_dropout_full
   sub_dir: models
