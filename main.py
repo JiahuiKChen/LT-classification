@@ -82,8 +82,8 @@ wandb.init(
     # mode="disabled",
     project="ImageNet-LT",
     config=config,
-    name="checkpointing_resume_test",
-    group="30subset_resnext18_BS",
+    name="dropout_resnext50",
+    # group="30subset_resnext18_BS",
     resume=True
 )
 
