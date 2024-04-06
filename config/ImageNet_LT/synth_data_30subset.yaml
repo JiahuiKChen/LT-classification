@@ -9,7 +9,8 @@ endlr: 0.0
 last: false
 memory: {centroids: false, init_centroids: false}
 model_dir: null
-model_checkpoint: /datastor1/jiahuikchen/LT-classification/logs/ImageNet_LT_30_BS/models/resnext18_dropout_ckpt_testing/latest_model_checkpoint.pth
+# model_checkpoint: /datastor1/jiahuikchen/LT-classification/logs/ImageNet_LT_30_BS/models/resnext18_dropout_ckpt_testing/latest_model_checkpoint.pth
+distributed: false
 networks:
   classifier:
     def_file: ./models/DotProductClassifier.py

@@ -83,8 +83,7 @@ wandb.init(
     project="ImageNet-LT",
     config=config,
     name="dropout_resnext50",
-    # group="30subset_resnext18_BS",
-    resume=True
+    # group="test",
 )
 
 test_mode = args.test

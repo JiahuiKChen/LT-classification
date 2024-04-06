@@ -21,12 +21,14 @@ import torch.optim as optim
 import torch.nn.functional as F
 from tqdm import tqdm
 from utils import *
-from logger import Logger
 import time
 import numpy as np
 import warnings
 import pdb
 import wandb
+
+import torch.distributed as dist
+from torch.nn.parallel import DistributedDataParallel as DDP
 
 
 class model ():
@@ -42,11 +44,8 @@ class model ():
         self.num_gpus = torch.cuda.device_count()
         self.do_shuffle = config['shuffle'] if 'shuffle' in config else False
 
-        # Setup logger
-        self.logger = Logger(self.training_opt['log_dir'])
-        
-        # Initialize model
-        self.init_models()
+        # no more logger from this repo, just use wandb
+        self.log_file = None
 
         # Load pre-trained model parameters for EVAL
         if 'model_dir' in self.config and self.config['model_dir'] is not None:
@@ -54,6 +53,16 @@ class model ():
 
         # Under training mode, initialize training steps, optimizers, schedulers, criterions, and centroids
         if not self.test_mode:
+            # distributed training
+            if 'distributed' in self.config and self.config['distributed']:
+                dist.init_process_group("nccl")
+                rank = dist.get_rank()
+                device_id = rank % torch.cuda.device_count()
+
+                self.init_model_ddp(device_id)
+            else:
+                # DataParallel
+                self.init_models()
 
             # If using steps for training, we need to calculate training steps 
             # for each epoch based on actual number of training data instead of 
@@ -86,13 +95,11 @@ class model ():
             if 'model_checkpoint' in self.config and self.config['model_checkpoint'] is not None:
                 # Value of 'model_checkpoint' should be: <path>/latest_model_checkpoint.pth
                 self.load_checkpoint(self.config['model_checkpoint'])
-            
-            # Set up log file
-            self.log_file = os.path.join(self.training_opt['log_dir'], 'log.txt')
-            if os.path.isfile(self.log_file):
-                os.remove(self.log_file)
-            self.logger.log_cfg(self.config)
+
         else:
+            # Initialize model with DataParallel (eval)
+            self.init_models()
+
             if 'KNNClassifier' in self.config['networks']['classifier']['def_file']:
                 self.load_model()
                 if not self.networks['classifier'].initialized:
@@ -102,8 +109,31 @@ class model ():
                     with open(os.path.join(self.training_opt['log_dir'], 'cfeats.pkl'), 'wb') as f:
                         pickle.dump(cfeats, f)
                     self.networks['classifier'].update(cfeats)
-            self.log_file = None
-        
+
+
+    def init_model_ddp(self, device):
+        networks_defs = self.config['networks']
+        self.networks = {}
+        self.model_optim_params_list = []
+
+        for key, val in networks_defs.items():
+ 
+            # Networks
+            def_file = val['def_file']
+            model_args = val['params']
+            model_args.update({'test': self.test_mode})
+
+            self.networks[key] = source_import(def_file).create_model(**model_args)
+            self.networks[key] = self.networks[key].to(device)
+            self.networks[key] = DDP(self.networks[key], device_ids=[device]) 
+
+            # Optimizer list
+            optim_params = val['optim_params']
+            self.model_optim_params_list.append({'params': self.networks[key].parameters(),
+                                                'lr': optim_params['lr'],
+                                                'momentum': optim_params['momentum'],
+                                                'weight_decay': optim_params['weight_decay']}) 
+
     def init_models(self):
         networks_defs = self.config['networks']
         self.networks = {}
@@ -127,6 +157,7 @@ class model ():
             else:
                 self.networks[key] = nn.DataParallel(self.networks[key]).cuda()
 
+            # never used by me
             if 'fix' in val and val['fix']:
                 print('Freezing feature weights except for self attention weights (if exist).')
                 for param_name, param in self.networks[key].named_parameters():
@@ -248,8 +279,6 @@ class model ():
         print_write(print_str, self.log_file)
         time.sleep(0.25)
 
-        print_write(['Do shuffle??? --- ', self.do_shuffle], self.log_file)
-
         # Initialize best model
         best_model_weights = {}
         best_model_weights['feat_model'] = copy.deepcopy(self.networks['feat_model'].state_dict())
@@ -330,7 +359,6 @@ class model ():
                             'feat': minibatch_loss_feat
                         }
 
-                        self.logger.log_loss(loss_info)
                         wandb.log(loss_info)
 
                 # Update priority weights if using PrioritizedSampler
@@ -349,11 +377,6 @@ class model ():
                     self.data['train'].sampler.update_weights(*inlist)
                     # self.data['train'].sampler.update_weights(indexes.cpu().numpy(), ws)
 
-            if hasattr(self.data['train'].sampler, 'get_weights'):
-                self.logger.log_ws(epoch, self.data['train'].sampler.get_weights())
-            if hasattr(self.data['train'].sampler, 'reset_weights'):
-                self.data['train'].sampler.reset_weights(epoch)
-
             # After every epoch, validation
             rsls = {'epoch': epoch}
             rsls_train = self.eval_with_preds(total_preds, total_labels)
@@ -368,9 +391,6 @@ class model ():
                                   self.total_logits.detach(),
                                   self.total_labels)
                 self.data['train'].sampler.reset_priority(ws, self.total_labels.cpu().numpy())
-
-            # Log results
-            self.logger.log_acc(rsls)
 
             # Under validation, the best model need to be updated
             if self.eval_acc_mic_top1 > best_acc:
@@ -395,6 +415,7 @@ class model ():
         self.reset_model(best_model_weights)
         self.eval('test' if 'test' in self.data else 'val')
         print('Done')
+        dist.destroy_process_group()
     
     def eval_with_preds(self, preds, labels):
         # Count the number of examples
