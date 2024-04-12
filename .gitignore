@@ -2,7 +2,7 @@ logs
 *pkl
 *pyc
 .vscode
-*.sh
+# *.sh
 runs
 .vscode
 

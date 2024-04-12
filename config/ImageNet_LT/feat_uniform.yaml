@@ -1,25 +1,26 @@
 coslr: true
 criterions:
   PerformanceLoss:
-    def_file: ./loss/SoftmaxLoss.py
-    loss_params: {}
+    def_file: ./loss/BalancedSoftmaxLoss.py
+    loss_params: {freq_path: ./cls_freq/ImageNet_LT_train.json}
     optim_params: null
     weight: 1.0
 endlr: 0.0
 last: false
 memory: {centroids: false, init_centroids: false}
 model_dir: null
+distributed: true
 networks:
   classifier:
     def_file: ./models/DotProductClassifier.py
     optim_params: {lr: 0.2, momentum: 0.9, weight_decay: 0.0005}
-    params: {dataset: ImageNet_LT, feat_dim: 2048, log_dir: ./logs/ImageNet_LT/models/resnext50_uniform_e90,
+    params: {dataset: ImageNet_LT, feat_dim: 2048, log_dir: ./logs/ImageNet_LT/models/resnext50_baseline,
       num_classes: 1000, stage1_weights: false}
   feat_model:
     def_file: ./models/ResNext50Feature.py
     fix: false
     optim_params: {lr: 0.2, momentum: 0.9, weight_decay: 0.0005}
-    params: {dataset: ImageNet_LT, dropout: null, log_dir: ./logs/ImageNet_LT/models/resnext50_uniform_e90,
+    params: {dataset: ImageNet_LT, dropout: null, log_dir: ./logs/ImageNet_LT/models/resnext50_baseline,
       stage1_weights: false, use_fc: false, use_selfatt: false}
 shuffle: false
 training_opt:
@@ -28,7 +29,7 @@ training_opt:
   dataset: ImageNet_LT
   display_step: 10
   feature_dim: 2048
-  log_dir: ./logs/ImageNet_LT/models/resnext50_uniform_e90
+  log_dir: ./logs/ImageNet_LT/models/resnext50_baseline
   log_root: /logs/ImageNet_LT
   num_classes: 1000
   num_epochs: 150
@@ -36,5 +37,5 @@ training_opt:
   open_threshold: 0.1
   sampler: null
   scheduler_params: {gamma: 0.1, step_size: 30}
-  stage: resnext50_uniform_e90
+  stage: resnext50_baseline
   sub_dir: models
