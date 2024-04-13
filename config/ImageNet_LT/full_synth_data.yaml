@@ -9,6 +9,7 @@ endlr: 0.0
 last: false
 memory: {centroids: false, init_centroids: false}
 model_dir: null
+model_checkpoint: /home1/09842/jc98685/LT-classification/logs/ImageNet_LT/models/resnext50_dropout/latest_model_checkpoint.pth
 distributed: false 
 networks:
   classifier:

@@ -32,7 +32,7 @@
 #SBATCH -t 48:00:00        # Run time (hh:mm:ss)
 #SBATCH --mail-type=all    # Send email at begin and end of job
 #SBATCH -A MLL             # Project/Allocation name (req'd if you have more than 1)
-#SBATCH --mail-user=jiahui.k.chen@utexas.edu
+#SBATCH --mail-user=jiahui.k.chen@gmail.com
 
 source ~/.bashrc
 conda activate diffusion

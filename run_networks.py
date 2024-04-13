@@ -401,7 +401,7 @@ class model ():
                 best_model_weights['classifier'] = copy.deepcopy(self.networks['classifier'].state_dict())
             
             print('===> Saving checkpoint')
-            self.save_latest(epoch)
+            self.save_latest_best(epoch, best_model_weights)
 
         print()
         print('Training Complete.')
@@ -743,15 +743,10 @@ class model ():
         self.model_optimizer.load_state_dict(checkpoint['optimizer_state_dict'])     
         self.model_optimizer_scheduler.load_state_dict(checkpoint['scheduler_state_dict'])   
 
-    def save_latest(self, epoch):
-        model_weights = {}
-        # Model weights checkpoints
-        model_weights['feat_model'] = copy.deepcopy(self.networks['feat_model'].state_dict())
-        model_weights['classifier'] = copy.deepcopy(self.networks['classifier'].state_dict())
-
+    def save_latest_best(self, epoch, best_model_weights):
         model_states = {
             'epoch': epoch,
-            'state_dict': model_weights,
+            'state_dict': best_model_weights,
             'optimizer_state_dict': self.model_optimizer.state_dict(),
             'scheduler_state_dict': self.model_optimizer_scheduler.state_dict()
         }
