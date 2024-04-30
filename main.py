@@ -27,7 +27,7 @@ import wandb
 # 'ImageNet': '/data/tensorflow_datasets/downloads/manual/imagenet2012', # MIDI ImageNet 
 # 'ImageNet': '/datastor1/imagenet2012_manual', # A40 ImageNet
 # 'ImageNet': '/work/09842/jc98685/ls6/imagenet2012', # TACC ImageNet
-data_root = {'ImageNet': '/work/09842/jc98685/ls6/imagenet2012', # TACC ImageNet
+data_root = {'ImageNet': '/root/imagenet', # A100 ImageNet
              'Places': '/datasets01_101/Places365/041019',
              'iNaturalist18': '/checkpoint/bykang/iNaturalist18'}
 
@@ -79,11 +79,13 @@ with open(args.cfg) as f:
     config = yaml.safe_load(f)
 config = update(config, args)
 
+# A100 box run
+# wandb.login(key="2d224beb5f93d3d6ecbeed76b3156b343270a0bf")
 wandb.init(
     # mode="disabled",
     project="ImageNet-LT",
     config=config,
-    name="dropout_resnext50_TACC",
+    name="cutmix_dropout_resnext50_e15start_A100",
     # group="test",
 )
 
