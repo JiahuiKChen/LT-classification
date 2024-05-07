@@ -10,21 +10,21 @@ last: false
 memory: {centroids: false, init_centroids: false}
 model_dir: null
 # TACC checkpoint
-# model_checkpoint: /home1/09842/jc98685/LT-classification/logs/ImageNet_LT/models/resnext50_embed_cutmix_dropout/latest_model_checkpoint.pth
+# model_checkpoint: /home1/09842/jc98685/LT-classification/logs/ImageNet_LT/models/resnext50_cutmix_dropout/latest_model_checkpoint.pth
 # A100 checkpoint: 
-model_checkpoint: /root/LT-classification/logs/ImageNet_LT/models/resnext50_embed_cutmix_dropout/embed_cutmox_dropout_e145.pth
+model_checkpoint: /root/LT-classification/logs/ImageNet_LT/models/resnext50_cutmix_dropout/cutmix_dropout_e104.pth
 distributed: false 
 networks:
   classifier:
     def_file: ./models/DotProductClassifier.py
     optim_params: {lr: 0.2, momentum: 0.9, weight_decay: 0.0005}
-    params: {dataset: ImageNet_LT, feat_dim: 2048, log_dir: ./logs/ImageNet_LT/models/resnext50_embed_cutmix_dropout,
+    params: {dataset: ImageNet_LT, feat_dim: 2048, log_dir: ./logs/ImageNet_LT/models/resnext50_cutmix_dropout,
       num_classes: 1000, stage1_weights: false}
   feat_model:
     def_file: ./models/ResNext50Feature.py
     fix: false
     optim_params: {lr: 0.2, momentum: 0.9, weight_decay: 0.0005}
-    params: {dataset: ImageNet_LT, dropout: null, log_dir: ./logs/ImageNet_LT/models/resnext50_embed_cutmix_dropout,
+    params: {dataset: ImageNet_LT, dropout: null, log_dir: ./logs/ImageNet_LT/models/resnext50_cutmix_dropout,
       stage1_weights: false, use_fc: false, use_selfatt: false}
 shuffle: false
 training_opt:
@@ -35,17 +35,17 @@ training_opt:
   # synth_root: /mnt/zhang-nas/jiahuic/synth_LT_data/ImageNetLT/dropout  # MIDI 
   # synth_root: /datastor1/jiahuikchen/synth_ImageNet/dropout # A40
   # synth_root:  /work/09842/jc98685/ls6/dropout # TACC
-  synth_root:  /root/synth_data/mixup_dropout # A100
+  synth_root:  /root/synth_data/cutmix_dropout # A100
   display_step: 10
   feature_dim: 2048 # 512 # ResNext18 
   # 2048 # ResNext50 
-  log_dir: ./logs/ImageNet_LT/models/resnext50_embed_cutmix_dropout
+  log_dir: ./logs/ImageNet_LT/models/resnext50_cutmix_dropout
   log_root: /logs/ImageNet_LT
   num_classes: 1000
-  num_epochs: 5 
+  num_epochs: 46 
   num_workers: 3 
   open_threshold: 0.1
   sampler: null
   scheduler_params: {gamma: 0.1, step_size: 30}
-  stage: resnext50_embed_cutmix_dropout
+  stage: resnext50_cutmix_dropout
   sub_dir: models
