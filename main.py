@@ -85,7 +85,7 @@ wandb.init(
     # mode="disabled",
     project="ImageNet-LT",
     config=config,
-    name="rand_img_cond_resnext50_e13start_A100",
+    name="dropout_resnext50_e129start_A100",
     # group="test",
 )
 
