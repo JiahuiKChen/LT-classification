@@ -12,7 +12,7 @@ model_dir: null
 # TACC checkpoint
 # model_checkpoint: /home1/09842/jc98685/LT-classification/logs/ImageNet_LT/models/resnext50_rand_img_cond/latest_model_checkpoint.pth
 # A100 checkpoint: 
-# model_checkpoint: /root/LT-classification/logs/ImageNet_LT/models/resnext50_rand_img_cond/
+model_checkpoint: /home/karen/LT-classification/logs/ImageNet_LT/models/resnext50_rand_img_cond/rand_img_cond_e13.pth
 distributed: false 
 networks:
   classifier:
@@ -35,14 +35,14 @@ training_opt:
   # synth_root: /mnt/zhang-nas/jiahuic/synth_LT_data/ImageNetLT/dropout  # MIDI 
   # synth_root: /datastor1/jiahuikchen/synth_ImageNet/dropout # A40
   # synth_root:  /work/09842/jc98685/ls6/dropout # TACC
-  synth_root:  /root/synth_data/rand_img_cond # A100
+  synth_root:  /home/karen/synth_data/rand_img_cond # A100
   display_step: 10
   feature_dim: 2048 # 512 # ResNext18 
   # 2048 # ResNext50 
   log_dir: ./logs/ImageNet_LT/models/resnext50_rand_img_cond
   log_root: /logs/ImageNet_LT
   num_classes: 1000
-  num_epochs: 150
+  num_epochs: 137 
   num_workers: 3 
   open_threshold: 0.1
   sampler: null

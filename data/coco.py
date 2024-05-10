@@ -6,8 +6,10 @@ from typing import Any, Tuple, Dict
 
 import numpy as np
 import torchvision.transforms as transforms
+import glob
 import torch
 import os
+import random
 
 from pycocotools.coco import COCO
 from PIL import Image
@@ -15,6 +17,7 @@ from collections import defaultdict
 
 
 COCO_DIR = "/datastor1/vision_datasets/coco2017"
+SYNTH_IMAGE_DIR = "/datastor1/jiahuikchen/synth_fine_tune/COCO_synth_imgs"
 
 TRAIN_IMAGE_DIR = os.path.join(COCO_DIR, "train2017")
 VAL_IMAGE_DIR = os.path.join(COCO_DIR, "val2017")
@@ -44,21 +47,17 @@ class COCODataset():
 
     num_classes: int = len(class_names)
 
-    def __init__(self, *args, split: str = "train", seed: int = 0, 
+    def __init__(self, 
+                 synth_image_dir = SYNTH_IMAGE_DIR,
+                 cond_method = "embed_cutmix_dropout",
+                 split: str = "train", seed: int = 0, 
                  train_image_dir: str = TRAIN_IMAGE_DIR, 
                  val_image_dir: str = VAL_IMAGE_DIR, 
                  train_instances_file: str = DEFAULT_TRAIN_INSTANCES, 
                  val_instances_file: str = DEFAULT_VAL_INSTANCES, 
                  examples_per_class: int = None, 
-                #  generative_aug: GenerativeAugmentation = None, 
                  synthetic_probability: float = 0.5,
-                 use_randaugment: bool = False,
-                 image_size: Tuple[int] = (256, 256), **kwargs):
-
-        # super(COCODataset, self).__init__(
-        #     *args, examples_per_class=examples_per_class,
-        #     synthetic_probability=synthetic_probability, 
-        #     generative_aug=generative_aug, **kwargs)
+                 image_size: Tuple[int] = (256, 256)):
 
         image_dir = {"train": train_image_dir, "val": val_image_dir}[split]
         instances_file = {"train": train_instances_file, "val": val_instances_file}[split]
@@ -106,17 +105,7 @@ class COCODataset():
         self.all_labels = [i for i, key in enumerate(
             self.class_names) for _ in self.class_to_images[key]]
 
-        if use_randaugment: train_transform = transforms.Compose([
-            transforms.Resize(image_size),
-            transforms.RandAugment(),
-            transforms.ToTensor(),
-            transforms.ConvertImageDtype(torch.float),
-            transforms.Lambda(lambda x: x.expand(3, *image_size)),
-            transforms.Normalize(mean=[0.5, 0.5, 0.5], 
-                                  std=[0.5, 0.5, 0.5])
-        ])
-
-        else: train_transform = transforms.Compose([
+        train_transform = transforms.Compose([
             transforms.Resize(image_size),
             transforms.RandomHorizontalFlip(p=0.5),
             transforms.RandomRotation(degrees=15.0),
@@ -136,7 +125,21 @@ class COCODataset():
                                   std=[0.5, 0.5, 0.5])
         ])
 
+        # loading synthetic image paths by class
+        synth_img_dir = os.path.join(synth_image_dir, cond_method)
+        synth_image_files = sorted(list(glob.glob(os.path.join(synth_img_dir, "*.jpg"))))
+        synth_class_to_images = defaultdict(list)
+        self.synth_label_to_images = {}
+        for image_path in synth_image_files:
+            class_name = image_path.split('_')[0]
+            synth_class_to_images[class_name].append(image_path)
+            # get int label from class name
+            for i, key in enumerate(self.class_names):
+                self.synth_label_to_images[i] = synth_class_to_images[key]
+
         self.transform = {"train": train_transform, "val": val_transform}[split]
+
+        self.synthetic_probability = synthetic_probability
 
     def __len__(self):
         
@@ -157,3 +160,16 @@ class COCODataset():
         return dict(name=self.class_names[self.all_labels[idx]], 
                     mask=self.cocoapi.annToMask(annotation),
                     **annotation)
+    
+    def __getitem__(self, idx: int) -> Tuple[torch.Tensor, int]:
+        label = self.get_label_by_idx(idx)
+
+        if np.random.uniform() < self.synthetic_probability:
+            # randomly select synthetic image by label
+            image = random.choice(self.synth_label_to_images[label])
+            if isinstance(image, str): image = Image.open(image)
+
+        else:
+            image = self.get_image_by_idx(idx)
+
+        return self.transform(image), label

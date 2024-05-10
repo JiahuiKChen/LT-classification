@@ -27,7 +27,7 @@ import wandb
 # 'ImageNet': '/data/tensorflow_datasets/downloads/manual/imagenet2012', # MIDI ImageNet 
 # 'ImageNet': '/datastor1/imagenet2012_manual', # A40 ImageNet
 # 'ImageNet': '/work/09842/jc98685/ls6/imagenet2012', # TACC ImageNet
-data_root = {'ImageNet': '/root/imagenet', # A100 ImageNet
+data_root = {'ImageNet': '/home/karen/imagenet_raw', # A100 ImageNet
              'Places': '/datasets01_101/Places365/041019',
              'iNaturalist18': '/checkpoint/bykang/iNaturalist18'}
 
@@ -85,7 +85,7 @@ wandb.init(
     # mode="disabled",
     project="ImageNet-LT",
     config=config,
-    name="rand_img_cond_resnext50_A100",
+    name="rand_img_cond_resnext50_e13start_A100",
     # group="test",
 )
 

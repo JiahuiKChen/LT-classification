@@ -1,7 +1,7 @@
 from data.coco import COCODataset
-from semantic_aug.datasets.pascal import PASCALDataset
-from semantic_aug.datasets.caltech101 import CalTech101Dataset
-from semantic_aug.datasets.flowers102 import Flowers102Dataset
+# from semantic_aug.datasets.pascal import PASCALDataset
+# from semantic_aug.datasets.caltech101 import CalTech101Dataset
+# from semantic_aug.datasets.flowers102 import Flowers102Dataset
 from torch.utils.data import DataLoader
 from torchvision.models import resnet50, ResNet50_Weights
 from itertools import product
@@ -11,7 +11,7 @@ from typing import List
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import torch.distributed as distributed
+# import torch.distributed as distributed
 
 import argparse
 import pandas as pd
@@ -30,35 +30,20 @@ DEFAULT_EMBED_PATH = "{dataset}-tokens/{dataset}-{seed}-{examples_per_class}.pt"
 
 DATASETS = {
     "coco": COCODataset, 
-    "pascal": PASCALDataset,
-    "caltech": CalTech101Dataset,
-    "flowers": Flowers102Dataset
+    # TODO:
+    # "pascal": PASCALDataset,
+    # "caltech": CalTech101Dataset,
+    # "flowers": Flowers102Dataset
 }
 
-def run_experiment(examples_per_class: int = 0, 
+def run_experiment(cond_method: str = "embed_cutmix_dropout",
+                   examples_per_class: int = 0, 
                    seed: int = 0, 
-                   dataset: str = "spurge", 
-                   num_synthetic: int = 100, 
+                   dataset: str = "coco", 
                    iterations_per_epoch: int = 200, 
                    num_epochs: int = 50, 
                    batch_size: int = 32, 
-                   aug: List[str] = None,
-                   strength: List[float] = None, 
-                   guidance_scale: List[float] = None,
-                   mask: List[bool] = None,
-                   inverted: List[bool] = None, 
-                   probs: List[float] = None,
-                   compose: str = "parallel",
                    synthetic_probability: float = 0.5, 
-                   synthetic_dir: str = DEFAULT_SYNTHETIC_DIR, 
-                   embed_path: str = DEFAULT_EMBED_PATH,
-                   model_path: str = DEFAULT_MODEL_PATH,
-                   prompt: str = DEFAULT_PROMPT,
-                   tokens_per_class: int = 4,
-                   use_randaugment: bool = False,
-                   use_cutmix: bool = False,
-                   erasure_ckpt_path: str = None,
-                   image_size: int = 256,
                    classifier_backbone: str = "resnet50"):
 
     torch.manual_seed(seed)
@@ -66,15 +51,9 @@ def run_experiment(examples_per_class: int = 0,
     random.seed(seed)
 
     train_dataset = DATASETS[dataset](
+        cond_method=cond_method,
         split="train", examples_per_class=examples_per_class, 
-        synthetic_probability=synthetic_probability, 
-        synthetic_dir=synthetic_dir,
-        use_randaugment=use_randaugment,
-        generative_aug=aug, seed=seed,
-        image_size=(image_size, image_size))
-
-    if num_synthetic > 0 and aug is not None:
-        train_dataset.generate_augmentations(num_synthetic)
+        synthetic_probability=synthetic_probability)
 
     train_sampler = torch.utils.data.RandomSampler(
         train_dataset, replacement=True, 
@@ -85,8 +64,7 @@ def run_experiment(examples_per_class: int = 0,
         sampler=train_sampler, num_workers=4)
 
     val_dataset = DATASETS[dataset](
-        split="val", seed=seed,
-        image_size=(image_size, image_size))
+        split="val", seed=seed)
 
     val_sampler = torch.utils.data.RandomSampler(
         val_dataset, replacement=True, 
@@ -296,19 +274,17 @@ class ClassificationModel(nn.Module):
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser("Few-Shot Baseline")
+    parser = argparse.ArgumentParser("Few-Shot Fine Tuning")
 
-    parser.add_argument("--logdir", type=str, default="few_shot_combined")
-    parser.add_argument("--model-path", type=str, default="CompVis/stable-diffusion-v1-4")
-
-    parser.add_argument("--prompt", type=str, default="a photo of a {name}")
-
-    parser.add_argument("--synthetic-probability", type=float, default=0.5)
-    parser.add_argument("--synthetic-dir", type=str, default=DEFAULT_SYNTHETIC_DIR)
+    parser.add_argument("--cond_method", type=str, default="embed_cutmix_dropout", 
+                        choices=["rand_img_cond", "cutmix", "cutmix_dropout", "dropout", "embed_cutmix",
+                                 "embed_cutmix_dropout", "embed_mixup", "embed_mixup_dropout",
+                                 "mixup", "mixup_dropout"])
     
-    parser.add_argument("--image-size", type=int, default=256)
+    parser.add_argument("--synthetic-probability", type=float, default=0.5)
+    # parser.add_argument("--image-size", type=int, default=256)
     parser.add_argument("--classifier-backbone", type=str, 
-                        default="resnet50", choices=["resnet50", "deit"])
+                        default="resnet50", choices=["resnet50"])
 
     parser.add_argument("--iterations-per-epoch", type=int, default=200)
     parser.add_argument("--num-epochs", type=int, default=50)
@@ -318,30 +294,29 @@ if __name__ == "__main__":
     parser.add_argument("--num-trials", type=int, default=8)
     parser.add_argument("--examples-per-class", nargs='+', type=int, default=[1, 2, 4, 8, 16])
     
-    parser.add_argument("--embed-path", type=str, default=DEFAULT_EMBED_PATH)
-    
-    parser.add_argument("--dataset", type=str, default="pascal", 
+    parser.add_argument("--dataset", type=str, default="coco", 
                         choices=["coco", "pascal", "flowers", "caltech"])
 
     args = parser.parse_args()
 
-    try:
-        rank = int(os.environ["RANK"])
-        world_size = int(os.environ["WORLD_SIZE"])
-    except KeyError:
-        rank, world_size = 0, 1
+    # try:
+    #     rank = int(os.environ["RANK"])
+    #     world_size = int(os.environ["WORLD_SIZE"])
+    # except KeyError:
+    #     rank, world_size = 0, 1
 
-    device_id = rank % torch.cuda.device_count()
-    torch.cuda.set_device(rank % torch.cuda.device_count())
+    # device_id = rank % torch.cuda.device_count()
+    # torch.cuda.set_device(rank % torch.cuda.device_count())
 
-    print(f'Initialized process {rank} / {world_size}')
-    os.makedirs(args.logdir, exist_ok=True)
+    # print(f'Initialized process {rank} / {world_size}')
+    log_dir = args.cond_method
+    os.makedirs(log_dir, exist_ok=True)
 
     all_trials = []
 
     options = product(range(args.num_trials), args.examples_per_class)
     options = np.array(list(options))
-    options = np.array_split(options, world_size)[rank]
+    # options = np.array_split(options, world_size)[rank]
 
     for seed, examples_per_class in options.tolist():
 
@@ -352,33 +327,15 @@ if __name__ == "__main__":
             num_epochs=args.num_epochs,
             iterations_per_epoch=args.iterations_per_epoch, 
             batch_size=args.batch_size,
-            model_path=args.model_path,
             synthetic_probability=args.synthetic_probability, 
-            num_synthetic=args.num_synthetic, 
-            prompt=args.prompt, 
-            tokens_per_class=args.tokens_per_class,
-            aug=args.aug,
-            strength=args.strength, 
-            guidance_scale=args.guidance_scale,
-            mask=args.mask, 
-            inverted=args.inverted,
-            probs=args.probs,
-            compose=args.compose,
-            use_randaugment=args.use_randaugment,
-            use_cutmix=args.use_cutmix,
-            erasure_ckpt_path=args.erasure_ckpt_path,
-            image_size=args.image_size,
             classifier_backbone=args.classifier_backbone)
-
-        synthetic_dir = args.synthetic_dir.format(**hyperparameters)
-        embed_path = args.embed_path.format(**hyperparameters)
 
         all_trials.extend(run_experiment(
             synthetic_dir=synthetic_dir, 
             embed_path=embed_path, **hyperparameters))
 
         path = f"results_{seed}_{examples_per_class}.csv"
-        path = os.path.join(args.logdir, path)
+        path = os.path.join(log_dir, path)
 
         pd.DataFrame.from_records(all_trials).to_csv(path)
-        print(f"[rank {rank}] n={examples_per_class} saved to: {path}")
+        print(f"[conditioning method= {args.cond_method}  n={examples_per_class}  saved to:  {path}")
