@@ -12,6 +12,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 # import torch.distributed as distributed
+import wandb
 
 import argparse
 import pandas as pd
@@ -19,14 +20,6 @@ import numpy as np
 import random
 import os
 
-
-DEFAULT_MODEL_PATH = "CompVis/stable-diffusion-v1-4"
-DEFAULT_PROMPT = "a photo of a {name}"
-
-DEFAULT_SYNTHETIC_DIR = "/projects/rsalakhugroup/\
-btrabucc/aug/{dataset}-{aug}-{seed}-{examples_per_class}"
-
-DEFAULT_EMBED_PATH = "{dataset}-tokens/{dataset}-{seed}-{examples_per_class}.pt"
 
 DATASETS = {
     "coco": COCODataset, 
@@ -46,6 +39,23 @@ def run_experiment(cond_method: str = "embed_cutmix_dropout",
                    synthetic_probability: float = 0.5, 
                    classifier_backbone: str = "resnet50"):
 
+    run = wandb.init(
+        # mode="disabled",
+        project="SynthFineTune",
+        config={
+             "cond_method": cond_method,
+             "dataset": dataset,
+             "examples_per_class": examples_per_class,
+             "trial": seed,
+             "num_epochs": num_epochs,
+             "batch_size": batch_size,
+             "classifier_backbone": classifier_backbone,
+             "synthetic_probability": synthetic_probability
+        },
+        name=f"{dataset}{examples_per_class}ex_{cond_method}_trial{seed}",
+        group=f"{dataset}_{cond_method}"
+    )
+
     torch.manual_seed(seed)
     np.random.seed(seed)
     random.seed(seed)
@@ -64,6 +74,7 @@ def run_experiment(cond_method: str = "embed_cutmix_dropout",
         sampler=train_sampler, num_workers=4)
 
     val_dataset = DATASETS[dataset](
+        cond_method=cond_method,
         split="val", seed=seed)
 
     val_sampler = torch.utils.data.RandomSampler(
@@ -77,11 +88,13 @@ def run_experiment(cond_method: str = "embed_cutmix_dropout",
     model = ClassificationModel(
         train_dataset.num_classes, 
         backbone=classifier_backbone
-    ).cuda()
+    )
+    model = nn.DataParallel(model).cuda()
 
     optim = torch.optim.Adam(model.parameters(), lr=0.0001)
 
     records = []
+    best_val_acc = 0.0
 
     for epoch in trange(num_epochs, desc="Training Classifier"):
 
@@ -124,8 +137,7 @@ def run_experiment(cond_method: str = "embed_cutmix_dropout",
         training_loss = training_loss.cpu().numpy()
         training_accuracy = training_accuracy.cpu().numpy()
 
-        # TODO: log epoch training loss and accuracy
-
+        # VAL
         model.eval()
 
         epoch_loss = torch.zeros(
@@ -159,13 +171,30 @@ def run_experiment(cond_method: str = "embed_cutmix_dropout",
         validation_loss = validation_loss.cpu().numpy()
         validation_accuracy = validation_accuracy.cpu().numpy()
 
-        # TODO: log epoch val loss and accuracy, also print and record max
+        epoch_train_loss = training_loss.mean() 
+        epoch_train_acc = training_accuracy.mean() 
+        epoch_val_loss = validation_loss.mean()
+        epoch_val_acc = validation_accuracy.mean()
+
+        if epoch_val_acc > best_val_acc:
+            best_val_acc = epoch_val_acc
+
+        print(f"Epoch {epoch}\tTrain Acc: {epoch_train_acc}\tTrain Loss: {epoch_train_loss}\tVal Acc: {epoch_val_acc}\tVal Loss: {epoch_val_loss}")
+        run.log(
+            {
+                "epoch": epoch,
+                "train_loss": epoch_train_loss,
+                "train_acc": epoch_train_acc,
+                "val_loss": epoch_val_loss,
+                "val_acc": epoch_val_acc 
+            }
+        )
 
         records.append(dict(
             seed=seed, 
             examples_per_class=examples_per_class,
             epoch=epoch, 
-            value=training_loss.mean(), 
+            value=epoch_train_loss, 
             metric="Loss", 
             split="Training"
         ))
@@ -174,7 +203,7 @@ def run_experiment(cond_method: str = "embed_cutmix_dropout",
             seed=seed, 
             examples_per_class=examples_per_class,
             epoch=epoch, 
-            value=validation_loss.mean(), 
+            value=epoch_val_loss, 
             metric="Loss", 
             split="Validation"
         ))
@@ -183,7 +212,7 @@ def run_experiment(cond_method: str = "embed_cutmix_dropout",
             seed=seed, 
             examples_per_class=examples_per_class,
             epoch=epoch, 
-            value=training_accuracy.mean(), 
+            value=epoch_train_acc, 
             metric="Accuracy", 
             split="Training"
         ))
@@ -192,7 +221,7 @@ def run_experiment(cond_method: str = "embed_cutmix_dropout",
             seed=seed, 
             examples_per_class=examples_per_class,
             epoch=epoch, 
-            value=validation_accuracy.mean(), 
+            value=epoch_val_acc, 
             metric="Accuracy", 
             split="Validation"
         ))
@@ -234,7 +263,11 @@ def run_experiment(cond_method: str = "embed_cutmix_dropout",
                 metric=f"Accuracy {name.title()}", 
                 split="Validation"
             ))
-            
+
+    print(f"\nTrial {seed} with examples_per_class={examples_per_class} finished {num_epochs} epochs fine-tuning")
+    print(f"\tBest Val Accuracy: {best_val_acc}") 
+    run.finish()
+
     return records
 
 
@@ -276,7 +309,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser("Few-Shot Fine Tuning")
 
-    parser.add_argument("--cond_method", type=str, default="embed_cutmix_dropout", 
+    parser.add_argument("--cond-method", type=str, default="embed_cutmix_dropout", 
                         choices=["rand_img_cond", "cutmix", "cutmix_dropout", "dropout", "embed_cutmix",
                                  "embed_cutmix_dropout", "embed_mixup", "embed_mixup_dropout",
                                  "mixup", "mixup_dropout"])
@@ -290,8 +323,7 @@ if __name__ == "__main__":
     parser.add_argument("--num-epochs", type=int, default=50)
     parser.add_argument("--batch-size", type=int, default=32)
 
-    parser.add_argument("--num-synthetic", type=int, default=15)
-    parser.add_argument("--num-trials", type=int, default=8)
+    parser.add_argument("--num-trials", type=int, default=4)
     parser.add_argument("--examples-per-class", nargs='+', type=int, default=[1, 2, 4, 8, 16])
     
     parser.add_argument("--dataset", type=str, default="coco", 
@@ -299,17 +331,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    # try:
-    #     rank = int(os.environ["RANK"])
-    #     world_size = int(os.environ["WORLD_SIZE"])
-    # except KeyError:
-    #     rank, world_size = 0, 1
-
-    # device_id = rank % torch.cuda.device_count()
-    # torch.cuda.set_device(rank % torch.cuda.device_count())
-
-    # print(f'Initialized process {rank} / {world_size}')
-    log_dir = args.cond_method
+    log_dir = os.path.join(f"./logs/{args.dataset}", args.cond_method)
     os.makedirs(log_dir, exist_ok=True)
 
     all_trials = []
@@ -318,11 +340,12 @@ if __name__ == "__main__":
     options = np.array(list(options))
     # options = np.array_split(options, world_size)[rank]
 
-    for seed, examples_per_class in options.tolist():
+    for trial, examples_per_class in options.tolist():
 
         hyperparameters = dict(
+            cond_method=args.cond_method,
             examples_per_class=examples_per_class,
-            seed=seed, 
+            seed=trial, 
             dataset=args.dataset,
             num_epochs=args.num_epochs,
             iterations_per_epoch=args.iterations_per_epoch, 
@@ -330,11 +353,9 @@ if __name__ == "__main__":
             synthetic_probability=args.synthetic_probability, 
             classifier_backbone=args.classifier_backbone)
 
-        all_trials.extend(run_experiment(
-            synthetic_dir=synthetic_dir, 
-            embed_path=embed_path, **hyperparameters))
+        all_trials.extend(run_experiment(**hyperparameters))
 
-        path = f"results_{seed}_{examples_per_class}.csv"
+        path = f"results_{trial}_{examples_per_class}.csv"
         path = os.path.join(log_dir, path)
 
         pd.DataFrame.from_records(all_trials).to_csv(path)

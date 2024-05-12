@@ -131,7 +131,7 @@ class COCODataset():
         synth_class_to_images = defaultdict(list)
         self.synth_label_to_images = {}
         for image_path in synth_image_files:
-            class_name = image_path.split('_')[0]
+            class_name = image_path.split('/')[-1].split('_')[0]
             synth_class_to_images[class_name].append(image_path)
             # get int label from class name
             for i, key in enumerate(self.class_names):
