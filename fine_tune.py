@@ -1,5 +1,5 @@
 from data.coco import COCODataset
-# from semantic_aug.datasets.pascal import PASCALDataset
+from data.pascal import PASCALDataset
 # from semantic_aug.datasets.caltech101 import CalTech101Dataset
 # from semantic_aug.datasets.flowers102 import Flowers102Dataset
 from torch.utils.data import DataLoader
@@ -23,8 +23,7 @@ import os
 
 DATASETS = {
     "coco": COCODataset, 
-    # TODO:
-    # "pascal": PASCALDataset,
+    "pascal": PASCALDataset,
     # "caltech": CalTech101Dataset,
     # "flowers": Flowers102Dataset
 }
@@ -40,7 +39,7 @@ def run_experiment(cond_method: str = "embed_cutmix_dropout",
                    classifier_backbone: str = "resnet50"):
 
     run = wandb.init(
-        # mode="disabled",
+        mode="disabled",
         project="SynthFineTune",
         config={
              "cond_method": cond_method,
