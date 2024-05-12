@@ -86,7 +86,7 @@ wandb.init(
     # mode="disabled",
     project="ImageNet-LT",
     config=config,
-    name="embed_cutmix_dropout_2.0CFG",
+    name="embed_cutmix_dropout_7.0CFG",
     group="90subset_resnext18_BS",
 )
 

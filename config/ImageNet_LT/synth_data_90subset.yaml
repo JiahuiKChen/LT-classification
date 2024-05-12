@@ -9,19 +9,19 @@ endlr: 0.0
 last: false
 memory: {centroids: false, init_centroids: false}
 model_dir: null 
-# model_checkpoint: /datastor1/jiahuikchen/LT-classification/logs/ImageNet_LT_90_BS/models/resnext18_embed_cutmix_dropout_2.0cfg/latest_model_checkpoint.pth 
+# model_checkpoint: /datastor1/jiahuikchen/LT-classification/logs/ImageNet_LT_90_BS/models/resnext18_embed_cutmix_dropout_7.0cfg/latest_model_checkpoint.pth 
 distributed: false
 networks:
   classifier:
     def_file: ./models/DotProductClassifier.py
     optim_params: {lr: 0.2, momentum: 0.9, weight_decay: 0.0005}
-    params: {dataset: ImageNet_LT, feat_dim: 512, log_dir: ./logs/ImageNet_LT_90_BS/models/resnext18_embed_cutmix_dropout_2.0cfg,
+    params: {dataset: ImageNet_LT, feat_dim: 512, log_dir: ./logs/ImageNet_LT_90_BS/models/resnext18_embed_cutmix_dropout_7.0cfg,
       num_classes: 90, stage1_weights: false}
   feat_model:
     def_file: ./models/ResNext18Feature.py
     fix: false
     optim_params: {lr: 0.2, momentum: 0.9, weight_decay: 0.0005}
-    params: {dataset: ImageNet_LT, dropout: null, log_dir: ./logs/ImageNet_LT_90_BS/models/resnext18_embed_cutmix_dropout_2.0cfg,
+    params: {dataset: ImageNet_LT, dropout: null, log_dir: ./logs/ImageNet_LT_90_BS/models/resnext18_embed_cutmix_dropout_7.0cfg,
       stage1_weights: false, use_fc: false, use_selfatt: false}
 shuffle: false
 training_opt:
@@ -32,11 +32,11 @@ training_opt:
   synth_data: true
   # synth_root: /mnt/zhang-nas/jiahuic/synth_LT_data/ImageNetLT/embed_cutmix_dropout_90  # MIDI 
   # synth_root: /datastor1/jiahuikchen/synth_ImageNet/embed_cutmix_dropout90_4.0cfg/ # A40
-  synth_root: /home/karen/synth_data/embed_cutmix_dropout90_2.0cfg # A100
+  synth_root: /home/karen/synth_data/embed_cutmix_dropout90_7.0cfg # A100
   display_step: 10
   feature_dim: 512 # ResNext18 
   # 2048 # ResNext50 
-  log_dir: ./logs/ImageNet_LT_90_BS/models/resnext18_embed_cutmix_dropout_2.0cfg
+  log_dir: ./logs/ImageNet_LT_90_BS/models/resnext18_embed_cutmix_dropout_7.0cfg
   log_root: /logs/ImageNet_LT_90_BS
   num_classes: 90 
   num_epochs: 150 
@@ -44,5 +44,5 @@ training_opt:
   open_threshold: 0.1
   sampler: null
   scheduler_params: {gamma: 0.1, step_size: 30}
-  stage: resnext18_embed_cutmix_dropout_2.0cfg
+  stage: resnext18_embed_cutmix_dropout_7.0cfg
   sub_dir: models
