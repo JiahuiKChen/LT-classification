@@ -1,6 +1,6 @@
 from data.coco import COCODataset
 from data.pascal import PASCALDataset
-# from semantic_aug.datasets.caltech101 import CalTech101Dataset
+from data.caltech101 import CalTech101Dataset
 from data.flowers102 import Flowers102Dataset
 from torch.utils.data import DataLoader
 from torchvision.models import resnet50, ResNet50_Weights
@@ -24,7 +24,7 @@ import os
 DATASETS = {
     "coco": COCODataset, 
     "pascal": PASCALDataset,
-    # "caltech": CalTech101Dataset,
+    "caltech": CalTech101Dataset,
     "flowers": Flowers102Dataset
 }
 
