@@ -1,7 +1,7 @@
 from data.coco import COCODataset
 from data.pascal import PASCALDataset
 # from semantic_aug.datasets.caltech101 import CalTech101Dataset
-# from semantic_aug.datasets.flowers102 import Flowers102Dataset
+from data.flowers102 import Flowers102Dataset
 from torch.utils.data import DataLoader
 from torchvision.models import resnet50, ResNet50_Weights
 from itertools import product
@@ -25,7 +25,7 @@ DATASETS = {
     "coco": COCODataset, 
     "pascal": PASCALDataset,
     # "caltech": CalTech101Dataset,
-    # "flowers": Flowers102Dataset
+    "flowers": Flowers102Dataset
 }
 
 def run_experiment(cond_method: str = "embed_cutmix_dropout",
