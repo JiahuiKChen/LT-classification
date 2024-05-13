@@ -17,7 +17,7 @@ from collections import defaultdict
 
 
 DEFAULT_IMAGE_DIR = "/datastor1/vision_datasets/flowers102"
-SYNTH_IMAGE_DIR = "/datastor1/jiahuikchen/synth_fine_tune/flowers"
+SYNTH_IMAGE_DIR = "/datastor1/jiahuikchen/synth_fine_tune/flowers_2.0CFG"
 
 
 class Flowers102Dataset():

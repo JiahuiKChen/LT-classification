@@ -6,12 +6,10 @@ from torch.utils.data import DataLoader
 from torchvision.models import resnet50, ResNet50_Weights
 from itertools import product
 from tqdm import trange
-from typing import List
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-# import torch.distributed as distributed
 import wandb
 
 import argparse
@@ -39,7 +37,7 @@ def run_experiment(cond_method: str = "embed_cutmix_dropout",
                    classifier_backbone: str = "resnet50"):
 
     run = wandb.init(
-        mode="disabled",
+        # mode="disabled",
         project="SynthFineTune",
         config={
              "cond_method": cond_method,

@@ -15,7 +15,7 @@ from collections import defaultdict
 
 
 PASCAL_DIR = "/datastor1/vision_datasets/VOC2012"
-SYNTH_IMAGE_DIR = "/datastor1/jiahuikchen/synth_fine_tune/pascal"
+SYNTH_IMAGE_DIR = "/datastor1/jiahuikchen/synth_fine_tune/pascal_2.0CFG"
 
 TRAIN_IMAGE_SET = os.path.join(
     PASCAL_DIR, "ImageSets/Segmentation/train.txt")

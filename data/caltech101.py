@@ -15,7 +15,7 @@ from collections import defaultdict
 
 
 DEFAULT_IMAGE_DIR = "/datastor1/vision_datasets/caltech-101/101_ObjectCategories"
-SYNTH_IMAGE_DIR = "/datastor1/jiahuikchen/synth_fine_tune/caltech"
+SYNTH_IMAGE_DIR = "/datastor1/jiahuikchen/synth_fine_tune/caltech_2.0CFG"
 
 
 class CalTech101Dataset():

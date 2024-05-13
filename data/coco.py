@@ -17,7 +17,7 @@ from collections import defaultdict
 
 
 COCO_DIR = "/datastor1/vision_datasets/coco2017"
-SYNTH_IMAGE_DIR = "/datastor1/jiahuikchen/synth_fine_tune/COCO_synth_imgs"
+SYNTH_IMAGE_DIR = "/datastor1/jiahuikchen/synth_fine_tune/COCO_2.0CFG"
 
 TRAIN_IMAGE_DIR = os.path.join(COCO_DIR, "train2017")
 VAL_IMAGE_DIR = os.path.join(COCO_DIR, "val2017")
