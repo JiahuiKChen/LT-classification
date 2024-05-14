@@ -335,7 +335,6 @@ if __name__ == "__main__":
 
     options = product(range(args.num_trials), args.examples_per_class)
     options = np.array(list(options))
-    # options = np.array_split(options, world_size)[rank]
 
     for trial, examples_per_class in options.tolist():
 
@@ -352,8 +351,8 @@ if __name__ == "__main__":
 
         all_trials.extend(run_experiment(**hyperparameters))
 
-        path = f"results_{trial}_{examples_per_class}.csv"
-        path = os.path.join(log_dir, path)
+    path = f"results_{trial}_{examples_per_class}.csv"
+    path = os.path.join(log_dir, path)
 
-        pd.DataFrame.from_records(all_trials).to_csv(path)
-        print(f"[conditioning method= {args.cond_method}  n={examples_per_class}  saved to:  {path}")
+    pd.DataFrame.from_records(all_trials).to_csv(path)
+    print(f"[conditioning method= {args.cond_method}  dataset={args.dataset}  ALL runs saved to:  {path}")
