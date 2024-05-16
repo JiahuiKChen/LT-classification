@@ -16,8 +16,8 @@ from PIL import Image
 from collections import defaultdict
 
 
-COCO_DIR = "/home/karen/vision_datasets/coco2017"
-SYNTH_IMAGE_DIR = "/home/karen/synth_fine_tune/COCO_synth_imgs"
+COCO_DIR = "/datastor1/vision_datasets/coco2017"
+SYNTH_IMAGE_DIR = "/datastor1/jiahuikchen/synth_fine_tune/COCO_synth_imgs"
 
 TRAIN_IMAGE_DIR = os.path.join(COCO_DIR, "train2017")
 VAL_IMAGE_DIR = os.path.join(COCO_DIR, "val2017")

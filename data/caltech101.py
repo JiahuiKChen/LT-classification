@@ -14,8 +14,8 @@ from PIL import Image
 from collections import defaultdict
 
 
-DEFAULT_IMAGE_DIR = "/home/karen/vision_datasets/caltech-101/101_ObjectCategories"
-SYNTH_IMAGE_DIR = "/home/karen/synth_fine_tune/caltech"
+DEFAULT_IMAGE_DIR = "/datastor1/vision_datasets/caltech-101/101_ObjectCategories"
+SYNTH_IMAGE_DIR = "/datastor1/jiahuikchen/synth_fine_tune/caltech"
 
 
 class CalTech101Dataset():

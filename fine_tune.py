@@ -38,7 +38,7 @@ def run_experiment(cond_method: str = "embed_cutmix_dropout",
 
     run = wandb.init(
         # mode="disabled",
-        project="SynthFineTune",
+        project="10.0CFGSynthFineTune",
         config={
              "cond_method": cond_method,
              "dataset": dataset,
@@ -328,7 +328,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    log_dir = os.path.join(f"./logs/{args.dataset}", args.cond_method)
+    log_dir = os.path.join(f"./logs/{args.dataset}_10.0cfg", args.cond_method)
     os.makedirs(log_dir, exist_ok=True)
 
     all_trials = []

@@ -16,8 +16,8 @@ from PIL import Image
 from collections import defaultdict
 
 
-DEFAULT_IMAGE_DIR = "/home/karen/vision_datasets/flowers102"
-SYNTH_IMAGE_DIR = "/home/karen/synth_fine_tune/flowers"
+DEFAULT_IMAGE_DIR = "/datastor1/vision_datasets/flowers102"
+SYNTH_IMAGE_DIR = "/datastor1/jiahuikchen/synth_fine_tune/flowers"
 
 
 class Flowers102Dataset():

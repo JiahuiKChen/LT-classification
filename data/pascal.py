@@ -14,8 +14,8 @@ from PIL import Image
 from collections import defaultdict
 
 
-PASCAL_DIR = "/home/karen/vision_datasets/VOC2012"
-SYNTH_IMAGE_DIR = "/home/karen/synth_fine_tune/pascal"
+PASCAL_DIR = "/datastor1/vision_datasets/VOC2012"
+SYNTH_IMAGE_DIR = "/datastor1/jiahuikchen/synth_fine_tune/pascal"
 
 TRAIN_IMAGE_SET = os.path.join(
     PASCAL_DIR, "ImageSets/Segmentation/train.txt")
