@@ -12,7 +12,7 @@ model_dir: null
 # TACC checkpoint
 # model_checkpoint: /home1/09842/jc98685/LT-classification/logs/ImageNet_LT/models/resnext50_embed_cutmix_dropout_2.0cfg/latest_model_checkpoint.pth
 # A100 checkpoint: 
-# model_checkpoint: /home/karen/LT-classification/logs/ImageNet_LT/models/resnext50_embed_cutmix_dropout_2.0cfg/mixup_dropout_e79.pth
+model_checkpoint: /home/karen/LT-classification/logs/ImageNet_LT/models/resnext50_embed_cutmix_dropout_2.0cfg/embed_cutmix_dropout2.0_e50.pth
 distributed: false 
 networks:
   classifier:
