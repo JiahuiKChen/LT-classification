@@ -9,3 +9,5 @@ runs
 /wandb
 
 wandb
+
+**.ipynb_checkpoints
